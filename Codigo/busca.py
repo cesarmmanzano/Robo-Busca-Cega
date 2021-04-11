@@ -1,8 +1,9 @@
 import pygame
+import sys
 import math
 from queue import PriorityQueue
 
-GAME_WIDTH = 800
+GAME_WIDTH = 798
 GAME_ROWS = 42
 GAME_WINDOW = pygame.display.set_mode((GAME_WIDTH, GAME_WIDTH))
 
@@ -13,6 +14,7 @@ pygame.display.set_caption("Robo Busca Cega")
 FILE_NAME = 'index.txt'
 
 global currentAlgorithm
+global isMenuRunning
 
 # RGB Colors
 GREEN = (151, 224, 103)  # 1 - Straight/Flat/Solid
@@ -186,6 +188,7 @@ def Main(window, width):
 
     windowGrid = BuildInitialWindow(GAME_ROWS, width, grid)
 
+    isMenuRunning = False
     isGameRunning = True
 
     while isGameRunning:
@@ -200,38 +203,46 @@ def Main(window, width):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 isGameRunning = False
+                pygame.quit()
+                sys.exit()
 
 # ==================== #
+
 
 def MainMenu():
 
-	isMenuRunning = True
-	localWindow = pygame.display.set_mode((int(GAME_WIDTH/2), int(GAME_WIDTH/2)))
+    isMenuRunning = True
+    localWindow = pygame.display.set_mode(
+        (int(GAME_WIDTH), int(GAME_WIDTH)))
 
-	while isMenuRunning:
+    while isMenuRunning:
 
-		# fill menu window and create buttons
-		localWindow.fill(TURQUOISE)
-		button_1 = pygame.Rect(100, 100, 200, 50)
-		button_2 = pygame.Rect(100, 200, 200, 50)
-		pygame.draw.rect(localWindow, ORANGE, button_1)
-		pygame.draw.rect(localWindow, ORANGE, button_2)
-		pygame.display.update()
+        # fill menu window and create buttons
+        localWindow.fill(TURQUOISE)
+        button_1 = pygame.Rect(250, 300, 300, 50)
+        button_2 = pygame.Rect(250, 400, 300, 50)
 
-		# binding click events
-		mx, my = pygame.mouse.get_pos()
-		if button_1.collidepoint((mx, my)):
-			currentAlgorithm = A_ALGORITHM
-			Main(GAME_WINDOW, GAME_WIDTH)
-		if button_1.collidepoint((mx, my)):
-			currentAlgorithm = BLIND_SEARCH_ALGORITHM
-			Main(GAME_WINDOW, GAME_WIDTH)
+        # binding click events
+        mx, my = pygame.mouse.get_pos()
+        if button_1.collidepoint((mx, my)):
+            currentAlgorithm = A_ALGORITHM
+            Main(GAME_WINDOW, GAME_WIDTH)
+        if button_2.collidepoint((mx, my)):
+            currentAlgorithm = BLIND_SEARCH_ALGORITHM
+            Main(GAME_WINDOW, GAME_WIDTH)
 
-		for event in pygame.event.get():
-			if event.type == pygame.QUIT:
-				isMenuRunning = False
+        pygame.draw.rect(localWindow, ORANGE, button_1)
+        pygame.draw.rect(localWindow, ORANGE, button_2)
+        pygame.display.update()
+
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                isMenuRunning = False
+                pygame.quit()
+                sys.exit()
 
 # ==================== #
+
 
 MainMenu()
 
