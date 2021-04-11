@@ -2,12 +2,17 @@ import pygame
 import math
 from queue import PriorityQueue
 
-GAME_WIDTH = 798
+GAME_WIDTH = 800
 GAME_ROWS = 42
 GAME_WINDOW = pygame.display.set_mode((GAME_WIDTH, GAME_WIDTH))
+
+A_ALGORITHM = "A* Algorithm"
+BLIND_SEARCH_ALGORITHM = "Blind Search Algorithm"
 pygame.display.set_caption("Robo Busca Cega")
 
 FILE_NAME = 'index.txt'
+
+global currentAlgorithm
 
 # RGB Colors
 GREEN = (151, 224, 103)  # 1 - Straight/Flat/Solid
@@ -173,7 +178,7 @@ def BuildInitialWindow(rows, width, grid):
 # ==================== #
 
 
-def main(window, width):
+def Main(window, width):
     file = ReadFile()
     initialPosition = file[0]  # initialPosition[i, j]
     finalPosition = file[1]  # finalPosition[i, j]
@@ -198,18 +203,36 @@ def main(window, width):
 
 # ==================== #
 
-def main_menu(window):
-	while True:
-		window.fill(TURQUOISE)
-		button_1 = pygame.Rect(50, 100, 200, 50)
-		button_2 = pygame.Rect(50, 200, 200, 50)
-		pygame.draw.rect(GAME_WINDOW, (255, 0, 0), button_1)
-		pygame.draw.rect(GAME_WINDOW, (255, 0, 0), button_2)
+def MainMenu():
 
+	isMenuRunning = True
+	localWindow = pygame.display.set_mode((int(GAME_WIDTH/2), int(GAME_WIDTH/2)))
+
+	while isMenuRunning:
+
+		# fill menu window and create buttons
+		localWindow.fill(TURQUOISE)
+		button_1 = pygame.Rect(100, 100, 200, 50)
+		button_2 = pygame.Rect(100, 200, 200, 50)
+		pygame.draw.rect(localWindow, ORANGE, button_1)
+		pygame.draw.rect(localWindow, ORANGE, button_2)
 		pygame.display.update()
-	
+
+		# binding click events
+		mx, my = pygame.mouse.get_pos()
+		if button_1.collidepoint((mx, my)):
+			currentAlgorithm = A_ALGORITHM
+			Main(GAME_WINDOW, GAME_WIDTH)
+		if button_1.collidepoint((mx, my)):
+			currentAlgorithm = BLIND_SEARCH_ALGORITHM
+			Main(GAME_WINDOW, GAME_WIDTH)
+
+		for event in pygame.event.get():
+			if event.type == pygame.QUIT:
+				isMenuRunning = False
+
 # ==================== #
 
-main_menu(GAME_WINDOW)
+MainMenu()
 
-#main(GAME_WINDOW, GAME_WIDTH)
+# main(GAME_WINDOW, GAME_WIDTH)
