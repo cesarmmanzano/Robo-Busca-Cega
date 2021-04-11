@@ -2,6 +2,7 @@ import pygame
 import sys
 import math
 from queue import PriorityQueue
+from pygame.locals import *
 
 GAME_WIDTH = 798
 GAME_ROWS = 42
@@ -210,7 +211,8 @@ def Main(window, width):
 
 
 def MainMenu():
-
+    
+    click = False
     isMenuRunning = True
     localWindow = pygame.display.set_mode(
         (int(GAME_WIDTH), int(GAME_WIDTH)))
@@ -225,11 +227,13 @@ def MainMenu():
         # binding click events
         mx, my = pygame.mouse.get_pos()
         if button_1.collidepoint((mx, my)):
-            currentAlgorithm = A_ALGORITHM
-            Main(GAME_WINDOW, GAME_WIDTH)
+            if click:
+            	currentAlgorithm = A_ALGORITHM
+            	Main(GAME_WINDOW, GAME_WIDTH)
         if button_2.collidepoint((mx, my)):
-            currentAlgorithm = BLIND_SEARCH_ALGORITHM
-            Main(GAME_WINDOW, GAME_WIDTH)
+            if click:
+            	currentAlgorithm = BLIND_SEARCH_ALGORITHM
+            	Main(GAME_WINDOW, GAME_WIDTH)
 
         pygame.draw.rect(localWindow, ORANGE, button_1)
         pygame.draw.rect(localWindow, ORANGE, button_2)
@@ -240,6 +244,9 @@ def MainMenu():
                 isMenuRunning = False
                 pygame.quit()
                 sys.exit()
+            if event.type == MOUSEBUTTONDOWN:
+                if event.button == 1:
+                    click = True
 
 # ==================== #
 
