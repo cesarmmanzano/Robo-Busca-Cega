@@ -10,14 +10,11 @@ pygame.display.set_caption("Robo Busca Cega")
 FILE_NAME = 'index.txt'
 
 # RGB Colors
-GREEN = (0, 255, 0) #1 - Straight/Flat/Solid
-BROWN = (165,42,42) #2 - Mountain
-BLUE = (0, 0, 255) #3 - Swamp
-RED = (255, 0, 0) #4 - Fire
+GREEN = (151,224,103) #1 - Straight/Flat/Solid
+BROWN = (119,93,68) #2 - Mountain
+BLUE = (84,194,234) #3 - Swamp
+RED = (201,94,82) #4 - Fire
 
-#RED = (255, 0, 0)
-#GREEN = (0, 255, 0)
-#BLUE = (0, 255, 0)
 YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
@@ -30,7 +27,7 @@ TURQUOISE = (64, 224, 208)
 # ==================== #
 
 class Spot:
-	def __init__(self, row, col, width, total_rows, color):
+	def __init__(self, col, row, width, total_rows, color, weight):
 		self.row = row
 		self.col = col
 		self.x = row * width
@@ -39,6 +36,10 @@ class Spot:
 		self.neighbors = []
 		self.width = width
 		self.total_rows = total_rows
+		self.weight = weight
+
+	def get_weight(self):
+		return self.weight
 
 	def get_pos(self):
 		return self.row, self.col
@@ -61,8 +62,8 @@ class Spot:
 	def reset(self):
 		self.color = WHITE
 
-	def make_start(self):
-		self.color = ORANGE
+	def ColorStartPosition(self):
+		self.color = WHITE
 
 	def make_closed(self):
 		self.color = RED
@@ -73,8 +74,8 @@ class Spot:
 	def make_barrier(self):
 		self.color = BLACK
 
-	def make_end(self):
-		self.color = TURQUOISE
+	def ColorFinalPosition(self):
+		self.color = BLACK
 
 	def make_path(self):
 		self.color = PURPLE
@@ -101,7 +102,7 @@ class Spot:
 
 # ==================== #
 
-def readFile():
+def ReadFile():
 
 	with open(FILE_NAME, 'r') as f:
 		ws, hs = [int(x) for x in next(f).split(',')]
@@ -119,28 +120,28 @@ def readFile():
 
 # ==================== #
 
-def draw_grid(win, rows, width):
+def DrawGrid(win, rows, width):
 	gap = width // rows
 	for i in range(rows):
-		pygame.draw.line(win, GREY, (0, i * gap), (width, i * gap))
+		pygame.draw.line(win, BLACK, (0, i * gap), (width, i * gap))
 		for j in range(rows):
-			pygame.draw.line(win, GREY, (j * gap, 0), (j * gap, width))
+			pygame.draw.line(win, BLACK, (j * gap, 0), (j * gap, width))
 
 # ==================== #
 
-def draw(win, grid, rows, width):
+def Draw(win, grid, rows, width):
 	win.fill(WHITE)
 
 	for row in grid:
 		for spot in row:
 			spot.draw(win)
 
-	draw_grid(win, rows, width)
+	DrawGrid(win, rows, width)
 	pygame.display.update()
 
 # ==================== #
 
-def buildInitialWindow(rows, width, grid):
+def BuildInitialWindow(rows, width, grid):
 	gridWindow = []
 	gap = width // rows	
 	for i in range(rows):
@@ -148,15 +149,19 @@ def buildInitialWindow(rows, width, grid):
 		for j in range(rows):
 					
 			if grid[i][j] == 1:
-				color = GREEN										
+				color = GREEN
+				weight = 1									
 			if grid[i][j] == 2:
-				color = BROWN								
+				color = BROWN
+				weight = 5								
 			if grid[i][j] == 3:
-				color = BLUE							
+				color = BLUE
+				weight = 10							
 			if grid[i][j] == 4:
-				color = RED		
+				color = RED	
+				weight = 15	
 			
-			spot = Spot(j, i, gap, rows, color)
+			spot = Spot(i, j, gap, rows, color, weight)
 			gridWindow[i].append(spot)
 		
 	return gridWindow
@@ -165,21 +170,24 @@ def buildInitialWindow(rows, width, grid):
 
 def main(window, width):
 
-	file = readFile()
+	file = ReadFile()
 	initialPosition = file[0] # initialPosition[i, j]
 	finalPosition = file[1] # finalPosition[i, j]
 	grid = file[2]
 
-	windowGrid = buildInitialWindow(GAME_ROWS, width, grid)
+	windowGrid = BuildInitialWindow(GAME_ROWS, width, grid)
 	
 	isGameRunning = True
 
 	while isGameRunning:	
-		draw(window, windowGrid, GAME_ROWS, width)
-
+		Draw(window, windowGrid, GAME_ROWS, width)
+		initialSpot = windowGrid[initialPosition[0]][initialPosition[1]]
+		initialSpot.ColorStartPosition()
+		finalSpot = windowGrid[finalPosition[0]][finalPosition[1]]
+		finalSpot.ColorFinalPosition()				
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
-				isGameRunning = False	
+				isGameRunning = False
 
 # ==================== #
 
