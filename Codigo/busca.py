@@ -6,12 +6,9 @@ from pygame.locals import *
 
 GAME_WIDTH = 798
 GAME_ROWS = 42
-GAME_WINDOW = pygame.display.set_mode((GAME_WIDTH, GAME_WIDTH))
 
 A_ALGORITHM = "A* Algorithm"
 BLIND_SEARCH_ALGORITHM = "Blind Search Algorithm"
-pygame.display.set_caption("Robo Busca Cega")
-
 FILE_NAME = 'index.txt'
 
 global currentAlgorithm
@@ -34,7 +31,7 @@ TURQUOISE = (64, 224, 208)
 # ==================== #
 
 class Spot:
-    def __init__(self, col, row, width, total_rows, color, weight):
+    def __init__(self, col, row, width, color, weight):
         self.row = row
         self.col = col
         self.x = row * width
@@ -42,7 +39,7 @@ class Spot:
         self.color = color
         self.neighbors = []
         self.width = width
-        self.total_rows = total_rows
+        self.total_rows = GAME_ROWS
         self.weight = weight
 
     def GetWeight(self):
@@ -110,7 +107,6 @@ class Spot:
 
 # ==================== #
 
-
 def ReadFile():
 
     with open(FILE_NAME, 'r') as f:
@@ -129,36 +125,33 @@ def ReadFile():
 
 # ==================== #
 
-
-def DrawGrid(win, rows, width):
-    gap = width // rows
-    for i in range(rows):
-        pygame.draw.line(win, BLACK, (0, i * gap), (width, i * gap))
-        for j in range(rows):
-            pygame.draw.line(win, BLACK, (j * gap, 0), (j * gap, width))
+def DrawGrid(window):
+    gap = GAME_WIDTH // GAME_ROWS
+    for i in range(GAME_ROWS):
+        pygame.draw.line(window, BLACK, (0, i * gap), (GAME_WIDTH, i * gap))
+        for j in range(GAME_ROWS):
+            pygame.draw.line(window, BLACK, (j * gap, 0), (j * gap, GAME_WIDTH))
 
 # ==================== #
 
-
-def Draw(win, grid, rows, width):
-    win.fill(WHITE)
+def Draw(window, grid):
+    window.fill(WHITE)
 
     for row in grid:
         for spot in row:
-            spot.Draw(win)
+            spot.Draw(window)
 
-    DrawGrid(win, rows, width)
+    DrawGrid(window)
     pygame.display.update()
 
 # ==================== #
 
-
-def BuildInitialWindow(rows, width, grid):
-    gridWindow = []
-    gap = width // rows
-    for i in range(rows):
-        gridWindow.append([])
-        for j in range(rows):
+def BuildInitialWindow(grid):
+    windowGrid = []
+    gap = GAME_WIDTH // GAME_ROWS
+    for i in range(GAME_ROWS):
+        windowGrid.append([])
+        for j in range(GAME_ROWS):
 
             if grid[i][j] == 1:
                 color = GREEN
@@ -173,27 +166,29 @@ def BuildInitialWindow(rows, width, grid):
                 color = RED
                 weight = 15
 
-            spot = Spot(i, j, gap, rows, color, weight)
-            gridWindow[i].append(spot)
+            spot = Spot(i, j, gap, color, weight)
+            windowGrid[i].append(spot)
 
-    return gridWindow
+    return windowGrid
 
 # ==================== #
 
 
-def Main(window, width):
+def Main(window):
+
+    isMenuRunning = False
+
     file = ReadFile()
     initialPosition = file[0]  # initialPosition[i, j]
     finalPosition = file[1]  # finalPosition[i, j]
-    grid = file[2]
+    fileGrid = file[2]
 
-    windowGrid = BuildInitialWindow(GAME_ROWS, width, grid)
+    windowGrid = BuildInitialWindow(fileGrid)
 
-    isMenuRunning = False
     isGameRunning = True
 
     while isGameRunning:
-        Draw(window, windowGrid, GAME_ROWS, width)
+        Draw(window, windowGrid)
 
         # draw initial and final position color
         initialSpot = windowGrid[initialPosition[0]][initialPosition[1]]
@@ -209,34 +204,41 @@ def Main(window, width):
 
 # ==================== #
 
+def OnMenuButtonClick(state):
+    currentAlgorithm = state
+    isMenuRunning = False
+    GAME_WINDOW = pygame.display.set_mode((GAME_WIDTH, GAME_WIDTH))    
+    pygame.display.set_caption("Robo Busca Cega - " + state)
+    pygame.display.update()
+    Main(GAME_WINDOW)
+
+# ==================== #
 
 def MainMenu():
-    
+
     click = False
     isMenuRunning = True
-    localWindow = pygame.display.set_mode(
-        (int(GAME_WIDTH), int(GAME_WIDTH)))
+    GAME_WINDOW = pygame.display.set_mode((int(GAME_WIDTH/2), int(GAME_WIDTH/2)))
+    pygame.display.set_caption("Robo Busca Cega")
 
     while isMenuRunning:
 
         # fill menu window and create buttons
-        localWindow.fill(TURQUOISE)
-        button_1 = pygame.Rect(250, 300, 300, 50)
-        button_2 = pygame.Rect(250, 400, 300, 50)
+        GAME_WINDOW.fill(TURQUOISE)
+        button_1 = pygame.Rect(100, 100, 200, 50)
+        button_2 = pygame.Rect(100, 200, 200, 50)
 
         # binding click events
-        mx, my = pygame.mouse.get_pos()
-        if button_1.collidepoint((mx, my)):
+        x, y = pygame.mouse.get_pos()
+        if button_1.collidepoint((x, y)):
             if click:
-            	currentAlgorithm = A_ALGORITHM
-            	Main(GAME_WINDOW, GAME_WIDTH)
-        if button_2.collidepoint((mx, my)):
+                OnMenuButtonClick(A_ALGORITHM)
+        if button_2.collidepoint((x, y)):
             if click:
-            	currentAlgorithm = BLIND_SEARCH_ALGORITHM
-            	Main(GAME_WINDOW, GAME_WIDTH)
+                OnMenuButtonClick(BLIND_SEARCH_ALGORITHM)
 
-        pygame.draw.rect(localWindow, ORANGE, button_1)
-        pygame.draw.rect(localWindow, ORANGE, button_2)
+        pygame.draw.rect(GAME_WINDOW, ORANGE, button_1)
+        pygame.draw.rect(GAME_WINDOW, ORANGE, button_2)
         pygame.display.update()
 
         for event in pygame.event.get():
@@ -250,7 +252,4 @@ def MainMenu():
 
 # ==================== #
 
-
 MainMenu()
-
-# main(GAME_WINDOW, GAME_WIDTH)
