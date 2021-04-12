@@ -7,7 +7,7 @@ from pygame.locals import *
 GAME_WIDTH = 798
 GAME_ROWS = 42
 
-FILE_NAME = 'index.txt'
+FILE_NAME = 'Codigo/index.txt'
 
 A_ALGORITHM = "A* Algorithm"
 BLIND_SEARCH_ALGORITHM = "Blind Search Algorithm"
