@@ -238,7 +238,7 @@ def MainMenu():
         # fill menu window and create buttons
         gameWindow.fill(TURQUOISE)
         button_1 = pygame.Rect(100, 100, 200, 50)
-        button_2 = pygame.Rect(100, 200, 200, 50)  
+        button_2 = pygame.Rect(100, 200, 200, 50)
           
         # binding click events
         x, y = pygame.mouse.get_pos()
@@ -249,8 +249,16 @@ def MainMenu():
             if click:
                 OnMenuButtonClick(gameWindow, BLIND_SEARCH_ALGORITHM, isMenuRunning)
 
+        pygame.font.init()
+        myfont = pygame.font.SysFont('Helvetica Neue', 30)
+
         pygame.draw.rect(gameWindow, ORANGE, button_1)
         pygame.draw.rect(gameWindow, ORANGE, button_2)
+        aStarText = myfont.render('A* Algorithm', True, (0,0,0))
+        bSearchText = myfont.render('Blind Search', True, (0,0,0))
+
+        gameWindow.blit(aStarText, (125,115))
+        gameWindow.blit(bSearchText, (125, 215))
         pygame.display.update()
 
         for event in pygame.event.get():
