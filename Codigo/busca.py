@@ -21,6 +21,7 @@ RED = (201, 94, 82)  # 4 - Fire
 YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
 BLACK = (0, 0, 0)
+BLACK_2 = (32, 14, 14)
 PURPLE = (128, 0, 128)
 ORANGE = (255, 165, 0)
 GREY = (128, 128, 128)
@@ -215,7 +216,6 @@ def OnMenuButtonClick(window, state, isMenuRunning):
     pygame.quit()
     window = pygame.display.set_mode((GAME_WIDTH, GAME_WIDTH))
     pygame.display.set_caption("Robo Busca Cega - " + state)
-    pygame.display.update()
     MainMapScreen(window)
 
 # ==================== #
@@ -236,7 +236,7 @@ def MainMenu():
     while isMenuRunning:
 
         # fill menu window and create buttons
-        gameWindow.fill(TURQUOISE)
+        gameWindow.fill(BLACK_2)
         button_1 = pygame.Rect(100, 100, 200, 50)
         button_2 = pygame.Rect(100, 200, 200, 50)
           
@@ -257,8 +257,8 @@ def MainMenu():
         aStarText = myfont.render('A* Algorithm', True, (0,0,0))
         bSearchText = myfont.render('Blind Search', True, (0,0,0))
 
-        gameWindow.blit(aStarText, (125,115))
-        gameWindow.blit(bSearchText, (125, 215))
+        gameWindow.blit(aStarText, (140,115))
+        gameWindow.blit(bSearchText, (140, 215))
         pygame.display.update()
 
         for event in pygame.event.get():
