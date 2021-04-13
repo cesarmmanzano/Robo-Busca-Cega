@@ -251,12 +251,15 @@ def MainMenu():
 
         pygame.font.init()
         myfont = pygame.font.SysFont('Helvetica Neue', 30)
+        nameFont = pygame.font.SysFont('Helvetica Neue', 15)
 
         pygame.draw.rect(gameWindow, ORANGE, button_1)
         pygame.draw.rect(gameWindow, ORANGE, button_2)
+        names = nameFont.render('Cesar Marrote Manzano & Victor Felipe dos Santos', True, (250,250,250))
         aStarText = myfont.render('A* Algorithm', True, (0,0,0))
         bSearchText = myfont.render('Blind Search', True, (0,0,0))
-
+        
+        gameWindow.blit(names, (0,0))
         gameWindow.blit(aStarText, (140,115))
         gameWindow.blit(bSearchText, (140, 215))
         pygame.display.update()
