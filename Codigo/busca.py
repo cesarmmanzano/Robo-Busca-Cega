@@ -278,7 +278,7 @@ def MainMenu():
         gameWindow.blit(aStarText, (140, 115))
         gameWindow.blit(bSearchText, (140, 215))
         names = nameFont.render('Cesar Marrote Manzano & Victor Felipe dos Santos', True, (250,250,250))
-        gameWindow.blit(names, (0,0))
+        gameWindow.blit(names, (0,0))   
         pygame.display.update()
 
         # Possible events
@@ -294,7 +294,8 @@ def MainMenu():
                     
             if event.type == MOUSEBUTTONUP:
                 if event.button == 1:
-                    click = True
+                    if button_1.collidepoint((x, y)) or button_2.collidepoint((x, y)):
+                        click = True
 
 # ==================== #
 
