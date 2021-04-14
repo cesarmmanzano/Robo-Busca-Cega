@@ -277,7 +277,8 @@ def MainMenu():
         bSearchText = myfont.render('Blind Search', True, (0, 0, 0))
         gameWindow.blit(aStarText, (140, 115))
         gameWindow.blit(bSearchText, (140, 215))
-
+        names = nameFont.render('Cesar Marrote Manzano & Victor Felipe dos Santos', True, (250,250,250))
+        gameWindow.blit(names, (0,0))
         pygame.display.update()
 
         # Possible events
