@@ -259,6 +259,7 @@ def MainMenu():
 
         pygame.font.init()
         myfont = pygame.font.SysFont('Helvetica Neue', 30)
+        nameFont = pygame.font.SysFont('Helvetica Neue', 15)
 
         # Mouse hover colors
         if button_1.collidepoint((x, y)) and not click:
