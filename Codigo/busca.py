@@ -3,31 +3,7 @@ import sys
 import math
 from queue import PriorityQueue
 from pygame.locals import *
-
-GAME_WIDTH = 798
-GAME_ROWS = 42
-GAME_TITLE = "Robo Busca Cega"
-FILE_NAME = 'Codigo/index.txt'
-
-# To control which algorithm will be used
-A_ALGORITHM = "A* Algorithm"
-BLIND_SEARCH_ALGORITHM = "Blind Search Algorithm"
-global currentAlgorithm
-
-# RGB Colors
-GREEN = (151, 224, 103)  # 1 - Straight/Flat/Solid
-BROWN = (119, 93, 68)  # 2 - Mountain
-BLUE = (84, 194, 234)  # 3 - Swamp
-RED = (201, 94, 82)  # 4 - Fire
-WHITE = (255, 255, 255)  # Initial position color
-BLACK = (0, 0, 0)  # Final position color
-ORANGE = (255, 165, 0)  # Menu button normal state
-LIGHT_ORANGE = (255, 141, 25)  # Menu button mouse hover
-LIGHT_BLACK = (32, 14, 14)  # Menu background
-PURPLE = (128, 0, 128)
-YELLOW = (255, 255, 0)
-GREY = (128, 128, 128)
-TURQUOISE = (64, 224, 208)
+import Commons
 
 # ==================== #
 
@@ -41,48 +17,49 @@ class Spot:
         self.color = color
         self.neighbors = []
         self.width = width
-        self.total_rows = GAME_ROWS
+        self.total_rows = Commons.GAME_ROWS
         self.weight = weight
 
     def GetWeight(self):
         return self.weight
 
     def IsStartPosition(self):
-        return self.color == WHITE
+        return self.color == Commons.WHITE
 
     def IsEndPosition(self):
-        return self.color == BLACK
+        return self.color == Commons.BLACK
 
     def ColorStartPosition(self):
-        self.color = WHITE
+        self.color = Commons.WHITE
 
     def ColorFinalPosition(self):
-        self.color = BLACK
+        self.color = Commons.BLACK
 
     def Draw(self, window):
-        pygame.draw.rect(window, self.color, (self.x, self.y, self.width, self.width))
+        pygame.draw.rect(window, self.color,
+                         (self.x, self.y, self.width, self.width))
 
     # the methods below are not used yet. Some of them will not be necessary
     def GetCurrentPosition(self):
         return self.row, self.col
 
     def IsClosed(self):
-        return self.color == RED
+        return self.color == Commons.RED
 
     def IsOpen(self):
-        return self.color == GREEN
+        return self.color == Commons.GREEN
 
     def Reset(self):
-        self.color = WHITE
+        self.color = Commons.WHITE
 
     def MakeClosed(self):
-        self.color = RED
+        self.color = Commons.RED
 
     def MakeOpen(self):
-        self.color = GREEN
+        self.color = Commons.GREEN
 
     def MakePath(self):
-        self.color = PURPLE
+        self.color = Commons.PURPLE
 
     def CreateNeighbors(self, grid):
         self.neighbors = []
@@ -111,7 +88,7 @@ class Spot:
 
 def ReadFile():
 
-    with open(FILE_NAME, 'r') as f:
+    with open(Commons.FILE_NAME, 'r') as f:
         ws, hs = [int(x) for x in next(f).split(',')]
         we, he = [int(x) for x in next(f).split(',')]
         startPosition = [ws, hs]
@@ -130,11 +107,13 @@ def ReadFile():
 
 
 def DrawGrid(window):
-    gap = GAME_WIDTH // GAME_ROWS
-    for i in range(GAME_ROWS):
-        pygame.draw.line(window, BLACK, (0, i * gap), (GAME_WIDTH, i * gap))
-        for j in range(GAME_ROWS):
-            pygame.draw.line(window, BLACK, (j * gap, 0), (j * gap, GAME_WIDTH))
+    gap = Commons.GAME_WIDTH // Commons.GAME_ROWS
+    for i in range(Commons.GAME_ROWS):
+        pygame.draw.line(window, Commons.BLACK, (0, i * gap),
+                         (Commons.GAME_WIDTH, i * gap))
+        for j in range(Commons.GAME_ROWS):
+            pygame.draw.line(window, Commons.BLACK, (j * gap, 0),
+                             (j * gap, Commons.GAME_WIDTH))
 
 # ==================== #
 
@@ -153,22 +132,22 @@ def Draw(window, grid):
 
 def BuildInitialWindow(grid):
     windowGrid = []
-    gap = GAME_WIDTH // GAME_ROWS
-    for i in range(GAME_ROWS):
+    gap = Commons.GAME_WIDTH // Commons.GAME_ROWS
+    for i in range(Commons.GAME_ROWS):
         windowGrid.append([])
-        for j in range(GAME_ROWS):
+        for j in range(Commons.GAME_ROWS):
 
             if grid[i][j] == 1:
-                color = GREEN
+                color = Commons.GREEN
                 weight = 1
             elif grid[i][j] == 2:
-                color = BROWN
+                color = Commons.BROWN
                 weight = 5
             elif grid[i][j] == 3:
-                color = BLUE
+                color = Commons.BLUE
                 weight = 10
             elif grid[i][j] == 4:
-                color = RED
+                color = Commons.RED
                 weight = 15
 
             spot = Spot(i, j, gap, color, weight)
@@ -180,8 +159,6 @@ def BuildInitialWindow(grid):
 
 
 def MainMapScreen(window):
-
-    isMenuRunning = False
 
     file = ReadFile()
     initialPosition = file[0]  # initialPosition[i, j]
@@ -205,99 +182,10 @@ def MainMapScreen(window):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 isGameRunning = False
-                QuitGame()
+                Commons.QuitGame()
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     isGameRunning = False
-                    QuitGame()
+                    Commons.QuitGame()
                 # if event.key == pygame.K_SPACE or event.key == pygame.K_KP_ENTER or event.key == pygame.enter:
                     # start game
-
-# ==================== #
-
-
-def OnMenuButtonClick(window, algorithm, isMenuRunning):
-    currentAlgorithm = algorithm
-    isMenuRunning = False
-    pygame.quit()
-    window = pygame.display.set_mode((GAME_WIDTH, GAME_WIDTH))
-    pygame.display.set_caption(GAME_TITLE + " - " + algorithm)
-    MainMapScreen(window)
-
-# ==================== #
-
-
-def QuitGame():
-    pygame.quit()
-    sys.exit()
-
-# ==================== #
-
-
-def MainMenu():
-
-    click = False
-    isMenuRunning = True
-    gameWindow = pygame.display.set_mode((int(GAME_WIDTH / 2), int(GAME_WIDTH / 2)))
-    pygame.display.set_caption(GAME_TITLE)
-
-    while isMenuRunning:
-
-        # fill menu window and create buttons
-        gameWindow.fill(LIGHT_BLACK)
-        button_1 = pygame.Rect(100, 100, 200, 50)
-        button_2 = pygame.Rect(100, 200, 200, 50)
-
-        # binding click events
-        x, y = pygame.mouse.get_pos()
-        if button_1.collidepoint((x, y)):
-            if click:
-                OnMenuButtonClick(gameWindow, A_ALGORITHM, isMenuRunning)
-        if button_2.collidepoint((x, y)):
-            if click:
-                OnMenuButtonClick(gameWindow, BLIND_SEARCH_ALGORITHM, isMenuRunning)
-
-        pygame.font.init()
-        myfont = pygame.font.SysFont('Helvetica Neue', 30)
-        nameFont = pygame.font.SysFont('Helvetica Neue', 15)
-
-        # Mouse hover colors
-        if button_1.collidepoint((x, y)) and not click:
-            pygame.draw.rect(gameWindow, LIGHT_ORANGE, button_1)
-        else:
-            pygame.draw.rect(gameWindow, ORANGE, button_1)
-
-        if button_2.collidepoint((x, y)) and not click:
-            pygame.draw.rect(gameWindow, LIGHT_ORANGE, button_2)
-        else:
-            pygame.draw.rect(gameWindow, ORANGE, button_2)
-
-        # render button text
-        aStarText = myfont.render('A* Algorithm', True, (0, 0, 0))
-        bSearchText = myfont.render('Blind Search', True, (0, 0, 0))
-        gameWindow.blit(aStarText, (140, 115))
-        gameWindow.blit(bSearchText, (140, 215))
-        names = nameFont.render('Cesar Marrote Manzano & Victor Felipe dos Santos', True, (250,250,250))
-        gameWindow.blit(names, (0,0))   
-        pygame.display.update()
-
-        # Possible events
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                isMenuRunning = False
-                QuitGame()
-                
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    isMenuRunning = False
-                    QuitGame()
-                    
-            if event.type == MOUSEBUTTONUP:
-                if event.button == 1:
-                    if button_1.collidepoint((x, y)) or button_2.collidepoint((x, y)):
-                        click = True
-
-# ==================== #
-
-
-MainMenu()
