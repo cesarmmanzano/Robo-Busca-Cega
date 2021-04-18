@@ -9,78 +9,6 @@ import Position
 
 # ==================== #
 
-def ReadFile():
-
-    with open(Commons.FILE_NAME, 'r') as f:
-        ws, hs = [int(x) for x in next(f).split(',')]
-        we, he = [int(x) for x in next(f).split(',')]
-        startPosition = [ws, hs]
-        finalPosition = [we, he]
-        gameMap = [[int(num) for num in line.split(',')] for line in f]
-
-    #result [ [start], [final], [map] ]
-    result = []
-    result.append(startPosition)
-    result.append(finalPosition)
-    result.append(gameMap)
-
-    return result
-
-# ==================== #
-
-
-def DrawGrid(window):
-    gap = Commons.GAME_WIDTH // Commons.GAME_ROWS
-    for i in range(Commons.GAME_ROWS):
-        pygame.draw.line(window, Commons.BLACK, (0, i * gap),
-                         (Commons.GAME_WIDTH, i * gap))
-        for j in range(Commons.GAME_ROWS):
-            pygame.draw.line(window, Commons.BLACK, (j * gap, 0),
-                             (j * gap, Commons.GAME_WIDTH))
-
-# ==================== #
-
-
-def Draw(window, grid):
-
-    for row in grid:
-        for spot in row:
-            spot.Draw(window)
-
-    DrawGrid(window)
-    pygame.display.update()
-
-# ==================== #
-
-
-def BuildInitialWindow(grid):
-    windowGrid = []
-    gap = Commons.GAME_WIDTH // Commons.GAME_ROWS
-    for i in range(Commons.GAME_ROWS):
-        windowGrid.append([])
-        for j in range(Commons.GAME_ROWS):
-
-            if grid[i][j] == 1:
-                color = Commons.GREEN
-                weight = 1
-            elif grid[i][j] == 2:
-                color = Commons.BROWN
-                weight = 5
-            elif grid[i][j] == 3:
-                color = Commons.BLUE
-                weight = 10
-            elif grid[i][j] == 4:
-                color = Commons.RED
-                weight = 15
-
-            spot = Position.Position(i, j, gap, color, weight)
-            windowGrid[i].append(spot)
-
-    return windowGrid
-
-# ==================== #
-
-
 def MainMapScreen(window):
 
     file = ReadFile()
@@ -119,3 +47,71 @@ def MainMapScreen(window):
                         print(Commons.A_ALGORITHM)
                     else:
                         print(Commons.BLIND_SEARCH_ALGORITHM)
+                        
+# ==================== #
+
+def ReadFile():
+
+    with open(Commons.FILE_NAME, 'r') as f:
+        ws, hs = [int(x) for x in next(f).split(',')]
+        we, he = [int(x) for x in next(f).split(',')]
+        startPosition = [ws, hs]
+        finalPosition = [we, he]
+        gameMap = [[int(num) for num in line.split(',')] for line in f]
+
+    # result [ [start], [final], [map] ]
+    result = []
+    result.append(startPosition)
+    result.append(finalPosition)
+    result.append(gameMap)
+
+    return result
+
+# ==================== #
+
+def BuildInitialWindow(grid):
+    windowGrid = []
+    gap = Commons.GAME_WIDTH // Commons.GAME_ROWS
+    for i in range(Commons.GAME_ROWS):
+        windowGrid.append([])
+        for j in range(Commons.GAME_ROWS):
+
+            if grid[i][j] == 1:
+                color = Commons.GREEN
+                weight = 1
+            elif grid[i][j] == 2:
+                color = Commons.BROWN
+                weight = 5
+            elif grid[i][j] == 3:
+                color = Commons.BLUE
+                weight = 10
+            elif grid[i][j] == 4:
+                color = Commons.RED
+                weight = 15
+
+            spot = Position.Position(i, j, gap, color, weight)
+            windowGrid[i].append(spot)
+
+    return windowGrid
+
+# ==================== #
+
+def Draw(window, grid):
+
+    for row in grid:
+        for spot in row:
+            spot.Draw(window)
+
+    DrawGrid(window)
+    pygame.display.update()
+
+# ==================== #
+
+def DrawGrid(window):
+    gap = Commons.GAME_WIDTH // Commons.GAME_ROWS
+    for i in range(Commons.GAME_ROWS):
+        pygame.draw.line(window, Commons.BLACK, (0, i * gap),
+                         (Commons.GAME_WIDTH, i * gap))
+        for j in range(Commons.GAME_ROWS):
+            pygame.draw.line(window, Commons.BLACK, (j * gap, 0),
+                             (j * gap, Commons.GAME_WIDTH))

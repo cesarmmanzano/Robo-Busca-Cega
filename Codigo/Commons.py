@@ -1,15 +1,13 @@
 import pygame
 import sys
-import math
-from queue import PriorityQueue
-from pygame.locals import *
 
 # Game constants
 GAME_WIDTH = 798
 GAME_ROWS = 42
 GAME_TITLE = "Robo Busca Cega"
-FILE_NAME = 'Codigo/index.txt'
+FILE_NAME = "Codigo/index.txt"
 
+# Font to de used
 HELVETICA_NEUE_FONT = "Helvetica Neue"
 
 # To control which algorithm will be used
@@ -17,9 +15,10 @@ A_ALGORITHM = "A* Algorithm"
 BLIND_SEARCH_ALGORITHM = "Blind Search Algorithm"
 global currentAlgorithm
 
+# Menu title
 NAMES_TITLE = "Cesar Marrote Manzano & Victor Felipe dos Santos"
 
-# RGB Colors
+# Hex Colors
 GREEN = ("#97E067")  # 1 - Straight/Flat/Solid
 BROWN = ("#775D44")  # 2 - Mountain
 BLUE = ("#54C2EA")  # 3 - Swamp
