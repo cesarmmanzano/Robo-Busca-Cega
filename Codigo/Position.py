@@ -14,10 +14,17 @@ class Position:
         self.total_rows = Commons.GAME_ROWS
         self.weight = weight
         self.neighborsWeight = []
+    
+    def GetNeighborWithLowestCost(self):
+        cost = self.neighborsWeight[0]
+        position = 0   
+        for i in range(0, self.neighborsWeight.__len__()):
+            if self.neighborsWeight[i] < cost: 
+                cost = self.neighborsWeight[i]               
+                position = i
 
-    def GetWeight(self):
-        return self.weight
-
+        return self.neighbors[position]
+        
     def IsStartPosition(self):
         return self.color == Commons.WHITE
 
@@ -31,8 +38,7 @@ class Position:
         self.color = Commons.BLACK
 
     def Draw(self, window):
-        pygame.draw.rect(window, self.color,
-                         (self.x, self.y, self.width, self.width))
+        pygame.draw.rect(window, self.color, (self.x, self.y, self.width, self.width))
 
     # the methods below are not used yet. Some of them will not be necessary
     def GetCurrentPosition(self):
@@ -66,23 +72,23 @@ class Position:
             self.neighbors.append(position)
             self.neighborsWeight.append(position.weight)
 
-        # LEFT
-        if self.col > 0:
-            position = grid[self.row][self.col - 1]
+        # RIGHT
+        if self.col < self.total_rows - 1:
+            position = grid[self.row][self.col + 1]
             self.neighbors.append(position)
-            self.neighborsWeight.append(position.weight) 
+            self.neighborsWeight.append(position.weight)           
             
         # DOWN
         if self.row < self.total_rows - 1:
             position = grid[self.row + 1][self.col]
             self.neighbors.append(position)
-            self.neighborsWeight.append(position.weight)
+            self.neighborsWeight.append(position.weight)         
             
-        # RIGHT
-        if self.col < self.total_rows - 1:
-            position = grid[self.row][self.col + 1]
+        # LEFT
+        if self.col > 0:
+            position = grid[self.row][self.col - 1]
             self.neighbors.append(position)
-            self.neighborsWeight.append(position.weight)                    
+            self.neighborsWeight.append(position.weight)                                 
 
     def __lt__(self, other):
         return False

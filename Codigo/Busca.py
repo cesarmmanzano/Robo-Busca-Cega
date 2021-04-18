@@ -1,5 +1,6 @@
 import pygame
 import sys
+import os
 import math
 from queue import PriorityQueue
 from pygame.locals import *
@@ -14,12 +15,11 @@ def MainMapScreen(window):
     file = ReadFile()
     initialPosition = file[0]  # initialPosition[i, j]
     finalPosition = file[1]  # finalPosition[i, j]
-    fileGrid = file[2]
 
-    windowGrid = BuildInitialWindow(fileGrid)
+    windowGrid = BuildInitialWindow(file[2])
 
     isGameRunning = True
-
+    hasGameStarted = False
     # draw initial and final position color
     initialSpot = windowGrid[initialPosition[0]][initialPosition[1]]
     initialSpot.ColorStartPosition()
@@ -38,15 +38,16 @@ def MainMapScreen(window):
                 if event.key == pygame.K_ESCAPE:
                     isGameRunning = False
                     Commons.QuitGame()
-                if event.key == pygame.K_SPACE or event.key == pygame.K_KP_ENTER:
+                if event.key == pygame.K_SPACE or event.key == pygame.K_KP_ENTER and not hasGameStarted:
+                    hasGameStarted = True
                     for i in windowGrid:
                         for j in i:                            
                             j.CreateNeighbors(windowGrid)
                                                     
                     if Commons.currentAlgorithm == Commons.A_ALGORITHM:
-                        print(Commons.A_ALGORITHM)
+                        AStarAlgorithm(windowGrid, initialSpot, finalSpot)
                     else:
-                        print(Commons.BLIND_SEARCH_ALGORITHM)
+                        BlindSearchUniformCostAlgorithm(windowGrid, initialSpot, finalSpot, window)                                       
                         
 # ==================== #
 
@@ -59,7 +60,7 @@ def ReadFile():
         finalPosition = [we, he]
         gameMap = [[int(num) for num in line.split(',')] for line in f]
 
-    # result [ [start], [final], [map] ]
+    # result [ [start], [final], [map] ]    
     result = []
     result.append(startPosition)
     result.append(finalPosition)
@@ -100,7 +101,7 @@ def Draw(window, grid):
 
     for row in grid:
         for spot in row:
-            spot.Draw(window)
+            spot.Draw(window)            
 
     DrawGrid(window)
     pygame.display.update()
@@ -115,3 +116,45 @@ def DrawGrid(window):
         for j in range(Commons.GAME_ROWS):
             pygame.draw.line(window, Commons.BLACK, (j * gap, 0),
                              (j * gap, Commons.GAME_WIDTH))
+            
+# ==================== #
+
+def AStarAlgorithm(tree, start, end):
+    print(Commons.A_ALGORITHM)
+
+# ==================== #
+ 
+def BlindSearchUniformCostAlgorithm(tree, start, end, window):    
+    print(Commons.BLIND_SEARCH_ALGORITHM)
+
+    # in case start and end are the same position
+    b = PriorityQueue()
+
+    if(start == end):
+        start.MakePath()
+        end.MakePath()
+        Draw(window, tree)
+        return
+    
+    border = PriorityQueue()    
+    path = [start]
+    exploredPositions = set([])
+    
+    border.put((0, start, path))
+    exploredPositions.add(start)
+    
+    while border:
+        
+        weight, position, currentPath = border.get()              
+        
+        if position == end:                             
+            for i in currentPath:                            
+                i.MakePath()
+            Draw(window, tree)
+            #os.system("pause")
+            return                                                          
+        
+        for i in range(0, position.neighbors.__len__()):                     
+            if position.neighbors[i] not in exploredPositions:                                          
+                border.put((weight + position.neighbors[i].weight, position.neighbors[i], currentPath + [position]))
+                exploredPositions.add(position.neighbors[i])                                          
