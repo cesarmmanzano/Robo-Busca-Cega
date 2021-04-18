@@ -77,7 +77,7 @@ def MainMenu():
 
 
 def OnMenuButtonClick(window, algorithm, isMenuRunning):
-    currentAlgorithm = algorithm
+    Commons.currentAlgorithm = algorithm
     isMenuRunning = False
     pygame.quit()
     window = pygame.display.set_mode((Commons.GAME_WIDTH, Commons.GAME_WIDTH))

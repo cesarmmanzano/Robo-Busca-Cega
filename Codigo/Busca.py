@@ -114,3 +114,8 @@ def MainMapScreen(window):
                     for i in windowGrid:
                         for j in i:                            
                             j.CreateNeighbors(windowGrid)
+                                                    
+                    if Commons.currentAlgorithm == Commons.A_ALGORITHM:
+                        print(Commons.A_ALGORITHM)
+                    else:
+                        print(Commons.BLIND_SEARCH_ALGORITHM)
