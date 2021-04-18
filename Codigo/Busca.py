@@ -3,88 +3,11 @@ import sys
 import math
 from queue import PriorityQueue
 from pygame.locals import *
+
 import Commons
+import Position
 
 # ==================== #
-
-
-class Spot:
-    def __init__(self, col, row, width, color, weight):
-        self.row = row
-        self.col = col
-        self.x = row * width
-        self.y = col * width
-        self.color = color
-        self.neighbors = []
-        self.width = width
-        self.total_rows = Commons.GAME_ROWS
-        self.weight = weight
-
-    def GetWeight(self):
-        return self.weight
-
-    def IsStartPosition(self):
-        return self.color == Commons.WHITE
-
-    def IsEndPosition(self):
-        return self.color == Commons.BLACK
-
-    def ColorStartPosition(self):
-        self.color = Commons.WHITE
-
-    def ColorFinalPosition(self):
-        self.color = Commons.BLACK
-
-    def Draw(self, window):
-        pygame.draw.rect(window, self.color,
-                         (self.x, self.y, self.width, self.width))
-
-    # the methods below are not used yet. Some of them will not be necessary
-    def GetCurrentPosition(self):
-        return self.row, self.col
-
-    def IsClosed(self):
-        return self.color == Commons.RED
-
-    def IsOpen(self):
-        return self.color == Commons.GREEN
-
-    def Reset(self):
-        self.color = Commons.WHITE
-
-    def MakeClosed(self):
-        self.color = Commons.RED
-
-    def MakeOpen(self):
-        self.color = Commons.GREEN
-
-    def MakePath(self):
-        self.color = Commons.PURPLE
-
-    def CreateNeighbors(self, grid):
-        self.neighbors = []
-
-        # DOWN
-        if self.row < self.total_rows - 1:
-            self.neighbors.append(grid[self.row + 1][self.col])
-
-        # UP
-        if self.row > 0:
-            self.neighbors.append(grid[self.row - 1][self.col])
-
-        # RIGHT
-        if self.col < self.total_rows - 1:
-            self.neighbors.append(grid[self.row][self.col + 1])
-
-        # LEFT
-        if self.col > 0:
-            self.neighbors.append(grid[self.row][self.col - 1])
-
-    def __lt__(self, other):
-        return False
-
-# ==================== #
-
 
 def ReadFile():
 
@@ -150,7 +73,7 @@ def BuildInitialWindow(grid):
                 color = Commons.RED
                 weight = 15
 
-            spot = Spot(i, j, gap, color, weight)
+            spot = Position.Position(i, j, gap, color, weight)
             windowGrid[i].append(spot)
 
     return windowGrid
@@ -187,5 +110,7 @@ def MainMapScreen(window):
                 if event.key == pygame.K_ESCAPE:
                     isGameRunning = False
                     Commons.QuitGame()
-                # if event.key == pygame.K_SPACE or event.key == pygame.K_KP_ENTER or event.key == pygame.enter:
-                    # start game
+                if event.key == pygame.K_SPACE or event.key == pygame.K_KP_ENTER:
+                    for i in windowGrid:
+                        for j in i:                            
+                            j.CreateNeighbors(windowGrid)
