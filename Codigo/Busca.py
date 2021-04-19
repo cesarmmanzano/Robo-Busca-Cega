@@ -72,7 +72,6 @@ def ReadFile():
 
 def BuildInitialWindow(grid):
     windowGrid = []
-    gap = Commons.GAME_WIDTH // Commons.GAME_ROWS
     for i in range(Commons.GAME_ROWS):
         windowGrid.append([])
         for j in range(Commons.GAME_ROWS):
@@ -90,7 +89,7 @@ def BuildInitialWindow(grid):
                 color = Commons.RED
                 weight = 15
 
-            spot = Position.Position(i, j, gap, color, weight)
+            spot = Position.Position(i, j, color, weight)
             windowGrid[i].append(spot)
 
     return windowGrid
@@ -108,14 +107,11 @@ def Draw(window, grid):
 
 # ==================== #
 
-def DrawGrid(window):
-    gap = Commons.GAME_WIDTH // Commons.GAME_ROWS
+def DrawGrid(window):    
     for i in range(Commons.GAME_ROWS):
-        pygame.draw.line(window, Commons.BLACK, (0, i * gap),
-                         (Commons.GAME_WIDTH, i * gap))
+        pygame.draw.line(window, Commons.BLACK, (0, i * Commons.SQUARE_SIZE), (Commons.GAME_WIDTH, i * Commons.SQUARE_SIZE))
         for j in range(Commons.GAME_ROWS):
-            pygame.draw.line(window, Commons.BLACK, (j * gap, 0),
-                             (j * gap, Commons.GAME_WIDTH))
+            pygame.draw.line(window, Commons.BLACK, (j * Commons.SQUARE_SIZE, 0), (j * Commons.SQUARE_SIZE, Commons.GAME_WIDTH))
             
 # ==================== #
 

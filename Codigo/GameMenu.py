@@ -12,8 +12,7 @@ def MainMenu():
 
     click = False
     isMenuRunning = True
-    gameWindow = pygame.display.set_mode(
-        (int(Commons.GAME_WIDTH / 2), int(Commons.GAME_WIDTH / 2)))
+    gameWindow = pygame.display.set_mode((int(Commons.GAME_WIDTH / 2), int(Commons.GAME_WIDTH / 2)))
     pygame.display.set_caption(Commons.GAME_TITLE)
 
     while isMenuRunning:
@@ -27,12 +26,10 @@ def MainMenu():
         x, y = pygame.mouse.get_pos()
         if button_1.collidepoint((x, y)):
             if click:
-                OnMenuButtonClick(
-                    gameWindow, Commons.A_ALGORITHM, isMenuRunning)
+                OnMenuButtonClick(gameWindow, Commons.A_ALGORITHM, isMenuRunning)
         if button_2.collidepoint((x, y)):
             if click:
-                OnMenuButtonClick(
-                    gameWindow, Commons.BLIND_SEARCH_ALGORITHM, isMenuRunning)
+                OnMenuButtonClick(gameWindow, Commons.BLIND_SEARCH_ALGORITHM, isMenuRunning)
 
         pygame.font.init()
         myfont = pygame.font.SysFont(Commons.HELVETICA_NEUE_FONT, 30)

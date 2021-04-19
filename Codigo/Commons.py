@@ -4,6 +4,7 @@ import sys
 # Game constants
 GAME_WIDTH = 798
 GAME_ROWS = 42
+SQUARE_SIZE = GAME_WIDTH // GAME_ROWS
 GAME_TITLE = "Robo Busca Cega"
 FILE_NAME = "Codigo/index.txt"
 
