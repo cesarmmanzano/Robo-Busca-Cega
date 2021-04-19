@@ -41,7 +41,7 @@ def MainMapScreen(window):
                 if event.key == pygame.K_SPACE or event.key == pygame.K_KP_ENTER and not hasGameStarted:
                     hasGameStarted = True
                     for i in windowGrid:
-                        for j in i:                            
+                        for j in i:
                             j.CreateNeighbors(windowGrid)
                                                     
                     if Commons.currentAlgorithm == Commons.A_ALGORITHM:
@@ -89,8 +89,8 @@ def BuildInitialWindow(grid):
                 color = Commons.RED
                 weight = 15
 
-            spot = Position.Position(i, j, color, weight)
-            windowGrid[i].append(spot)
+            position = Position.Position(i, j, color, weight)
+            windowGrid[i].append(position)
 
     return windowGrid
 
@@ -98,16 +98,16 @@ def BuildInitialWindow(grid):
 
 def Draw(window, grid):
 
-    for row in grid:
-        for spot in row:
-            spot.Draw(window)            
+    for i in grid:
+        for position in i:
+            position.Draw(window)
 
     DrawGrid(window)
     pygame.display.update()
 
 # ==================== #
 
-def DrawGrid(window):    
+def DrawGrid(window):
     for i in range(Commons.GAME_ROWS):
         pygame.draw.line(window, Commons.BLACK, (0, i * Commons.SQUARE_SIZE), (Commons.GAME_WIDTH, i * Commons.SQUARE_SIZE))
         for j in range(Commons.GAME_ROWS):
@@ -121,7 +121,7 @@ def AStarAlgorithm(tree, start, end):
 # ==================== #
  
 def BlindSearchUniformCostAlgorithm(tree, start, end, window):
-        
+
     queue = PriorityQueue()
     path = []
     exploredPositions = set([])
@@ -131,9 +131,9 @@ def BlindSearchUniformCostAlgorithm(tree, start, end, window):
     
     while queue:
         
-        weight, position, currentPath = queue.get()              
+        weight, position, currentPath = queue.get()
         
-        if position == end:    
+        if position == end:
             currentPath += [end]
             for i in currentPath:
                 i.MakePath()
