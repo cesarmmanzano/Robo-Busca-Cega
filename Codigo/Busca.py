@@ -124,9 +124,9 @@ def AStarAlgorithm(tree, start, end):
 
 # ==================== #
  
-def BlindSearchUniformCostAlgorithm(tree, start, end, window):    
+def BlindSearchUniformCostAlgorithm(tree, start, end, window):
         
-    queue = PriorityQueue()    
+    queue = PriorityQueue()
     path = []
     exploredPositions = set([])
     
@@ -137,13 +137,14 @@ def BlindSearchUniformCostAlgorithm(tree, start, end, window):
         
         weight, position, currentPath = queue.get()              
         
-        if position == end:                             
-            for i in currentPath:                            
+        if position == end:    
+            currentPath += [end]
+            for i in currentPath:
                 i.MakePath()
             Draw(window, tree)
-            return                             
+            return
         
-        for i in range(0, position.neighbors.__len__()):                     
-            if position.neighbors[i] not in exploredPositions:                                          
+        for i in range(0, position.neighbors.__len__()):
+            if position.neighbors[i] not in exploredPositions:
                 queue.put((weight + position.neighbors[i].weight, position.neighbors[i], currentPath + [position]))
                 exploredPositions.add(position.neighbors[i])
