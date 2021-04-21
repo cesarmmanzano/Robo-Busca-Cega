@@ -101,6 +101,7 @@ def Draw(window, grid, shouldDrawGrid = True):
 
     if shouldDrawGrid:
         DrawGrid(window)
+        
     pygame.display.update()
 
 # ==================== #
@@ -123,25 +124,22 @@ def CalculatePathBasedOnCurrentAlgorithm(tree, start, end, window):
     
     while queue:
         
-        weight, position, currentPath = queue.get()  
-        position.ColorPosition()     
+        weight, position, currentPath = queue.get()          
+        position.ColorPosition()  
+           
         if position == end:
             currentPath += [end]
             for i in currentPath:
-                i.MakePath()       
-            for i in range(queue.qsize()):                
-                queue.get()[1].ColorBorder()
-                  
-            #t1 = threading.Thread(target=Draw, args=[window, tree])
-            #t1.start()
+                w += i.weight
+                i.MakePath()      
             Draw(window, tree)           
             return
         
         for i in range(0, position.neighbors.__len__()):
             if position.neighbors[i] not in exploredPositions:
                 
-                if Commons.currentAlgorithm == Commons.A_ALGORITHM:
-                    weight2 = weight + CalculateManhattanDistance(position, position.neighbors[i])
+                if Commons.currentAlgorithm == Commons.A_ALGORITHM:                    
+                    weight2 = weight + CalculateManhattanDistance(position, end)
                 else:
                     weight2 = weight + position.neighbors[i].weight 
                                
@@ -149,14 +147,14 @@ def CalculatePathBasedOnCurrentAlgorithm(tree, start, end, window):
                 exploredPositions.add(position.neighbors[i])
                 position.neighbors[i].ColorBorder()
         
-        t2 = threading.Thread(target=Draw, args=[window, tree, False])
-        t2.start()
+        thread = threading.Thread(target=Draw, args=[window, tree, False])
+        thread.start()
 
 # ==================== #
 
-def CalculateManhattanDistance(position, neighbor):
-    x = abs(position.row - neighbor.row)
-    y = abs(position.column - neighbor.column)
+def CalculateManhattanDistance(position, end):
+    x = abs(position.row - end.row)
+    y = abs(position.column - end.column)
     
-    return (neighbor.weight * (x + y))
+    return end.weight * (x + y)
     
