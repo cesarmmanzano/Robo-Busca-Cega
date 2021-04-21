@@ -27,6 +27,7 @@ def MainMapScreen(window):
     finalSpot.ColorFinalPosition()
 
     while isGameRunning:
+        hasGameStarted = False
         Draw(window, windowGrid)
 
         # Possible events
@@ -46,7 +47,7 @@ def MainMapScreen(window):
                     if Commons.currentAlgorithm == Commons.A_ALGORITHM:
                         AStartAlgorithm(windowGrid, initialSpot, finalSpot, window)
                     else:
-                        BlindSearchAlgorithm(windowGrid, initialSpot, finalSpot, window)    
+                        BlindSearchAlgorithm(windowGrid, initialSpot, finalSpot, window)
                         
                 if event.key == pygame.K_r:  
                     windowGrid = BuildInitialWindow(file[2])
@@ -131,8 +132,8 @@ def BlindSearchAlgorithm(tree, start, end, window):
     queue.put((0, start, path))
     exploredPositions.add(start)
     
-    while queue:
-        
+    while queue:            
+                    
         weight, position, currentPath = queue.get()          
         position.ColorPosition()  
            
@@ -151,6 +152,11 @@ def BlindSearchAlgorithm(tree, start, end, window):
         
         thread = threading.Thread(target=Draw, args=[window, tree, False])
         thread.start()
+    
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_ESCAPE:
+                    Commons.QuitGame()
 
 # ==================== #
 

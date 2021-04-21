@@ -3,6 +3,7 @@ import sys
 
 # Game constants
 GAME_WIDTH = 798
+TUTORIAL_WIDTH = 20
 GAME_ROWS = 42
 SQUARE_SIZE = GAME_WIDTH // GAME_ROWS
 GAME_TITLE = "Robo Busca Cega"
@@ -18,6 +19,10 @@ global currentAlgorithm
 
 # Menu title
 NAMES_TITLE = "Cesar Marrote Manzano & Victor Felipe dos Santos"
+INSTRUCTIONS_TITLE = "Instruções: "
+INSTRUCTIONS_TITLE1_MENU = "Ao entrar na tela aperte espaço para iniciar"
+INSTRUCTIONS_TITLE2_MENU = "Ao terminar o algoritmo pressione 'r' para reiniciar"
+INSTRUCTIONS_TITLE3_MENU = "Voce pode pressionar ESC para fechar a janela a qualquer momento"
 
 # Hex Colors
 GREEN = ("#97E067")  # 1 - Straight/Flat/Solid
