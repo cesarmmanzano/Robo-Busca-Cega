@@ -130,7 +130,6 @@ def CalculatePathBasedOnCurrentAlgorithm(tree, start, end, window):
         if position == end:
             currentPath += [end]
             for i in currentPath:
-                w += i.weight
                 i.MakePath()      
             Draw(window, tree)           
             return
