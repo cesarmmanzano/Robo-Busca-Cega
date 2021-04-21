@@ -15,13 +15,19 @@ class Position:
 
     def ColorFinalPosition(self):
         self.color = Commons.FINAL_POSITION_COLOR
+    
+    def ColorBorder(self):
+        self.color = Commons.BLACK
+        
+    def ColorPosition(self):
+        self.color = Commons.ORANGE
 
     def Draw(self, window):
         pygame.draw.rect(window, self.color, (self.column * Commons.SQUARE_SIZE, self.row * Commons.SQUARE_SIZE, Commons.SQUARE_SIZE, Commons.SQUARE_SIZE))
 
     def MakePath(self):
         self.color = Commons.YELLOW
-
+    
     def CreateNeighbors(self, grid):
         self.neighbors = []
 

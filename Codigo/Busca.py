@@ -1,7 +1,7 @@
 import pygame
 import sys
-import os
 import math
+import threading
 from queue import PriorityQueue
 from pygame.locals import *
 
@@ -44,10 +44,7 @@ def MainMapScreen(window):
                         for j in i:
                             j.CreateNeighbors(windowGrid)
                                                     
-                    if Commons.currentAlgorithm == Commons.A_ALGORITHM:
-                        AStarAlgorithm(windowGrid, initialSpot, finalSpot)
-                    else:
-                        BlindSearchUniformCostAlgorithm(windowGrid, initialSpot, finalSpot, window)                                       
+                    CalculatePathBasedOnCurrentAlgorithm(windowGrid, initialSpot, finalSpot, window)                                   
                         
 # ==================== #
 
@@ -96,13 +93,14 @@ def BuildInitialWindow(grid):
 
 # ==================== #
 
-def Draw(window, grid):
+def Draw(window, grid, shouldDrawGrid = True):
 
     for i in grid:
         for position in i:
             position.Draw(window)
 
-    DrawGrid(window)
+    if shouldDrawGrid:
+        DrawGrid(window)
     pygame.display.update()
 
 # ==================== #
@@ -115,13 +113,7 @@ def DrawGrid(window):
             
 # ==================== #
 
-def AStarAlgorithm(tree, start, end):
-    print(Commons.A_ALGORITHM)
-
-# ==================== #
- 
-def BlindSearchUniformCostAlgorithm(tree, start, end, window):
-
+def CalculatePathBasedOnCurrentAlgorithm(tree, start, end, window):
     queue = PriorityQueue()
     path = []
     exploredPositions = set([])
@@ -131,16 +123,40 @@ def BlindSearchUniformCostAlgorithm(tree, start, end, window):
     
     while queue:
         
-        weight, position, currentPath = queue.get()
-        
+        weight, position, currentPath = queue.get()  
+        position.ColorPosition()     
         if position == end:
             currentPath += [end]
             for i in currentPath:
-                i.MakePath()
-            Draw(window, tree)
+                i.MakePath()       
+            for i in range(queue.qsize()):                
+                queue.get()[1].ColorBorder()
+                  
+            #t1 = threading.Thread(target=Draw, args=[window, tree])
+            #t1.start()
+            Draw(window, tree)           
             return
         
         for i in range(0, position.neighbors.__len__()):
             if position.neighbors[i] not in exploredPositions:
-                queue.put((weight + position.neighbors[i].weight, position.neighbors[i], currentPath + [position]))
+                
+                if Commons.currentAlgorithm == Commons.A_ALGORITHM:
+                    weight2 = weight + CalculateManhattanDistance(position, position.neighbors[i])
+                else:
+                    weight2 = weight + position.neighbors[i].weight 
+                               
+                queue.put((weight2, position.neighbors[i], currentPath + [position]))
                 exploredPositions.add(position.neighbors[i])
+                position.neighbors[i].ColorBorder()
+        
+        t2 = threading.Thread(target=Draw, args=[window, tree, False])
+        t2.start()
+
+# ==================== #
+
+def CalculateManhattanDistance(position, neighbor):
+    x = abs(position.row - neighbor.row)
+    y = abs(position.column - neighbor.column)
+    
+    return (neighbor.weight * (x + y))
+    
