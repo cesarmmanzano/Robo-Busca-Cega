@@ -42,10 +42,19 @@ def MainMapScreen(window):
                     hasGameStarted = True
                     for i in windowGrid:
                         for j in i:
-                            j.CreateNeighbors(windowGrid)
-                                                    
-                    CalculatePathBasedOnCurrentAlgorithm(windowGrid, initialSpot, finalSpot, window)                                   
+                            j.CreateNeighbors(windowGrid)                                            
+                    if Commons.currentAlgorithm == Commons.A_ALGORITHM:
+                        AStartAlgorithm(windowGrid, initialSpot, finalSpot, window)
+                    else:
+                        BlindSearchAlgorithm(windowGrid, initialSpot, finalSpot, window)    
                         
+                if event.key == pygame.K_r:  
+                    windowGrid = BuildInitialWindow(file[2])
+                    initialSpot = windowGrid[initialPosition[0]][initialPosition[1]]
+                    initialSpot.ColorStartPosition()
+                    finalSpot = windowGrid[finalPosition[0]][finalPosition[1]]
+                    finalSpot.ColorFinalPosition()     
+                                 
 # ==================== #
 
 def ReadFile():
@@ -91,8 +100,9 @@ def BuildInitialWindow(grid):
 
     return windowGrid
 
-# ==================== #
-
+# ==================== #                   
+                        
+    
 def Draw(window, grid, shouldDrawGrid = True):
 
     for i in grid:
@@ -114,11 +124,10 @@ def DrawGrid(window):
             
 # ==================== #
 
-def CalculatePathBasedOnCurrentAlgorithm(tree, start, end, window):
+def BlindSearchAlgorithm(tree, start, end, window):
     queue = PriorityQueue()
     path = []
-    exploredPositions = set([])
-    
+    exploredPositions = set([])    
     queue.put((0, start, path))
     exploredPositions.add(start)
     
@@ -130,19 +139,13 @@ def CalculatePathBasedOnCurrentAlgorithm(tree, start, end, window):
         if position == end:
             currentPath += [end]
             for i in currentPath:
-                i.MakePath()      
+                i.ColorPath()
             Draw(window, tree)           
             return
         
         for i in range(0, position.neighbors.__len__()):
-            if position.neighbors[i] not in exploredPositions:
-                
-                if Commons.currentAlgorithm == Commons.A_ALGORITHM:                    
-                    weight2 = weight + CalculateManhattanDistance(position, end)
-                else:
-                    weight2 = weight + position.neighbors[i].weight 
-                               
-                queue.put((weight2, position.neighbors[i], currentPath + [position]))
+            if position.neighbors[i] not in exploredPositions:                               
+                queue.put((weight + position.neighbors[i].weight, position.neighbors[i], currentPath + [position]))
                 exploredPositions.add(position.neighbors[i])
                 position.neighbors[i].ColorBorder()
         
@@ -151,9 +154,10 @@ def CalculatePathBasedOnCurrentAlgorithm(tree, start, end, window):
 
 # ==================== #
 
-def CalculateManhattanDistance(position, end):
-    x = abs(position.row - end.row)
-    y = abs(position.column - end.column)
+def AStartAlgorithm(tree, start, end, window):
+    print(Commons.A_ALGORITHM)
     
-    return end.weight * (x + y)
-    
+# ==================== #
+
+def CalculateManhattanDistance(tree, position, end):   
+     print('manhattan distance')

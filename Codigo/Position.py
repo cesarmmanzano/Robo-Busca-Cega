@@ -22,12 +22,12 @@ class Position:
     def ColorPosition(self):
         self.color = Commons.ORANGE
 
-    def Draw(self, window):
-        pygame.draw.rect(window, self.color, (self.column * Commons.SQUARE_SIZE, self.row * Commons.SQUARE_SIZE, Commons.SQUARE_SIZE, Commons.SQUARE_SIZE))
-
-    def MakePath(self):
+    def ColorPath(self):
         self.color = Commons.YELLOW
-    
+        
+    def Draw(self, window):
+        pygame.draw.rect(window, self.color, (self.column * Commons.SQUARE_SIZE, self.row * Commons.SQUARE_SIZE, Commons.SQUARE_SIZE, Commons.SQUARE_SIZE))    
+
     def CreateNeighbors(self, grid):
         self.neighbors = []
 
