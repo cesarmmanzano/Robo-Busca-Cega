@@ -1,6 +1,4 @@
 import pygame
-import sys
-from queue import PriorityQueue
 from pygame.locals import *
 
 import Busca
@@ -19,17 +17,16 @@ def MainMenu():
     
     while isMenuRunning:
 
-        # fill menu window and create buttons
         gameWindow.fill(Commons.LIGHT_BLACK)        
 
         # binding click events
         x, y = pygame.mouse.get_pos()
         if button_1.collidepoint((x, y)):
             if click:
-                OnMenuButtonClick(gameWindow, Commons.A_ALGORITHM, isMenuRunning)
+                OnMenuButtonClick(gameWindow, Commons.A_ALGORITHM)
         if button_2.collidepoint((x, y)):
             if click:
-                OnMenuButtonClick(gameWindow, Commons.BLIND_SEARCH_ALGORITHM, isMenuRunning)               
+                OnMenuButtonClick(gameWindow, Commons.BLIND_SEARCH_ALGORITHM)               
 
         # Mouse hover colors
         if button_1.collidepoint((x, y)) and not click:
@@ -41,16 +38,16 @@ def MainMenu():
             pygame.draw.rect(gameWindow, Commons.LIGHT_ORANGE, button_2)
         else:
             pygame.draw.rect(gameWindow, Commons.ORANGE, button_2)
-            
-        RenderTexts(gameWindow)        
-
+          
+        RenderTexts(gameWindow)  
+        
         # Possible events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 isMenuRunning = False
                 Commons.QuitGame()
 
-            if event.type == pygame.KEYDOWN:
+            if event.type == pygame.KEYUP:
                 if event.key == pygame.K_ESCAPE:
                     isMenuRunning = False
                     Commons.QuitGame()
@@ -62,12 +59,11 @@ def MainMenu():
 # ==================== #
 
 
-def OnMenuButtonClick(window, algorithm, isMenuRunning):
+def OnMenuButtonClick(window, algorithm):
     Commons.currentAlgorithm = algorithm
-    isMenuRunning = False
     pygame.quit()
     window = pygame.display.set_mode((Commons.GAME_WIDTH, Commons.GAME_WIDTH))
-    pygame.display.set_caption(Commons.GAME_TITLE + " - " + algorithm)
+    pygame.display.set_caption(Commons.GAME_TITLE + " - " + Commons.currentAlgorithm)
     Busca.MainMapScreen(window)
 
 # ==================== #

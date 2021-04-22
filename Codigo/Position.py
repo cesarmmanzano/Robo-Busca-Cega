@@ -1,29 +1,16 @@
 import pygame
-from pygame.locals import *
 import Commons
 
 class Position:
     def __init__(self, row, column, color, weight):
         self.row = row
         self.column = column
-        self.color = color
-        self.neighbors = []
+        self.color = color        
         self.weight = weight
+        self.neighbors = []
 
-    def ColorStartPosition(self):
-        self.color = Commons.START_POSITION_COLOR
-
-    def ColorFinalPosition(self):
-        self.color = Commons.FINAL_POSITION_COLOR
-    
-    def ColorBorder(self):
-        self.color = Commons.BLACK
-        
-    def ColorPosition(self):
-        self.color = Commons.ORANGE
-
-    def ColorPath(self):
-        self.color = Commons.YELLOW
+    def ColorPosition(self, color):
+        self.color = color
         
     def Draw(self, window):
         pygame.draw.rect(window, self.color, (self.column * Commons.SQUARE_SIZE, self.row * Commons.SQUARE_SIZE, Commons.SQUARE_SIZE, Commons.SQUARE_SIZE))    
@@ -33,23 +20,19 @@ class Position:
 
         # UP
         if self.row > 0:
-            position = grid[self.row - 1][self.column]
-            self.neighbors.append(position)
+            self.neighbors.append(grid[self.row - 1][self.column])
 
         # LEFT
         if self.column < Commons.GAME_ROWS - 1:
-            position = grid[self.row][self.column + 1]
-            self.neighbors.append(position)
+            self.neighbors.append(grid[self.row][self.column + 1])
             
         # DOWN
         if self.row < Commons.GAME_ROWS - 1:
-            position = grid[self.row + 1][self.column]
-            self.neighbors.append(position)
+            self.neighbors.append(grid[self.row + 1][self.column])
             
         # RIGHT
         if self.column > 0:
-            position = grid[self.row][self.column - 1]
-            self.neighbors.append(position)
+            self.neighbors.append(grid[self.row][self.column - 1])
 
     def __lt__(self, other):
-        return False
+        return True

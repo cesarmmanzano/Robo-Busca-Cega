@@ -20,7 +20,7 @@ global currentAlgorithm
 # Menu title
 NAMES_TITLE = "Cesar Marrote Manzano & Victor Felipe dos Santos"
 INSTRUCTIONS_TITLE = "Instruções: "
-INSTRUCTIONS_TITLE1_MENU = "Ao entrar na tela aperte espaço para iniciar"
+INSTRUCTIONS_TITLE1_MENU = "Ao entrar na tela aperte espaço ou enter do teclado numérico para iniciar"
 INSTRUCTIONS_TITLE2_MENU = "Ao terminar o algoritmo pressione 'r' para reiniciar"
 INSTRUCTIONS_TITLE3_MENU = "Voce pode pressionar ESC para fechar a janela a qualquer momento"
 
@@ -35,11 +35,7 @@ LIGHT_BLACK = ("#200E0E")  # Menu background
 YELLOW = ("#FFFF00") # Path color
 START_POSITION_COLOR = ("#009900") # green for start position
 FINAL_POSITION_COLOR = ("#FF0000") # red for final position
-WHITE = ("#FFFFFF")
-BLACK = ("#000000")
-PURPLE = (128, 0, 128)
-GREY = (128, 128, 128)
-TURQUOISE = (64, 224, 208)
+BLACK = ("#000000") # Border Color
 
 
 def QuitGame():

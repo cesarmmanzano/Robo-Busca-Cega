@@ -22,9 +22,9 @@ def MainMapScreen(window):
     hasGameStarted = False
     # draw initial and final position color
     initialSpot = windowGrid[initialPosition[0]][initialPosition[1]]
-    initialSpot.ColorStartPosition()
+    initialSpot.ColorPosition(Commons.START_POSITION_COLOR)
     finalSpot = windowGrid[finalPosition[0]][finalPosition[1]]
-    finalSpot.ColorFinalPosition()
+    finalSpot.ColorPosition(Commons.FINAL_POSITION_COLOR)
 
     while isGameRunning:
         hasGameStarted = False
@@ -35,10 +35,12 @@ def MainMapScreen(window):
             if event.type == pygame.QUIT:
                 isGameRunning = False
                 Commons.QuitGame()
-            if event.type == pygame.KEYDOWN:
+                
+            if event.type == pygame.KEYUP:
                 if event.key == pygame.K_ESCAPE:
                     isGameRunning = False
                     Commons.QuitGame()
+                    
                 if event.key == pygame.K_SPACE or event.key == pygame.K_KP_ENTER and not hasGameStarted:
                     hasGameStarted = True
                     for i in windowGrid:
@@ -52,9 +54,9 @@ def MainMapScreen(window):
                 if event.key == pygame.K_r:  
                     windowGrid = BuildInitialWindow(file[2])
                     initialSpot = windowGrid[initialPosition[0]][initialPosition[1]]
-                    initialSpot.ColorStartPosition()
+                    initialSpot.ColorPosition(Commons.START_POSITION_COLOR)
                     finalSpot = windowGrid[finalPosition[0]][finalPosition[1]]
-                    finalSpot.ColorFinalPosition()     
+                    finalSpot.ColorPosition(Commons.FINAL_POSITION_COLOR)     
                                  
 # ==================== #
 
@@ -104,59 +106,60 @@ def BuildInitialWindow(grid):
 # ==================== #                   
                         
     
-def Draw(window, grid, shouldDrawGrid = True):
+def Draw(window, grid, shouldDrawLine = True):
 
     for i in grid:
         for position in i:
             position.Draw(window)
 
-    if shouldDrawGrid:
-        DrawGrid(window)
+    if shouldDrawLine:
+        for i in range(Commons.GAME_ROWS):
+            posy = i * Commons.SQUARE_SIZE
+            pygame.draw.line(window, Commons.BLACK, (0, posy), (Commons.GAME_WIDTH, posy))
+            for j in range(Commons.GAME_ROWS):
+                posx = j * Commons.SQUARE_SIZE
+                pygame.draw.line(window, Commons.BLACK, (posx, 0), (posx, Commons.GAME_WIDTH))
         
     pygame.display.update()
-
-# ==================== #
-
-def DrawGrid(window):
-    for i in range(Commons.GAME_ROWS):
-        pygame.draw.line(window, Commons.BLACK, (0, i * Commons.SQUARE_SIZE), (Commons.GAME_WIDTH, i * Commons.SQUARE_SIZE))
-        for j in range(Commons.GAME_ROWS):
-            pygame.draw.line(window, Commons.BLACK, (j * Commons.SQUARE_SIZE, 0), (j * Commons.SQUARE_SIZE, Commons.GAME_WIDTH))
             
 # ==================== #
 
 def BlindSearchAlgorithm(tree, start, end, window):
     queue = PriorityQueue()
-    path = []
-    exploredPositions = set([])    
+    path = [start]
+    exploredPositions = set([])
     queue.put((0, start, path))
     exploredPositions.add(start)
     
     while queue:            
                     
-        weight, position, currentPath = queue.get()          
-        position.ColorPosition()  
-           
+        weight, position, currentPath = queue.get()
+        position.ColorPosition(Commons.ORANGE)
+        
         if position == end:
             currentPath += [end]
             for i in currentPath:
-                i.ColorPath()
-            Draw(window, tree)           
+                i.ColorPosition(Commons.YELLOW)
+            Draw(window, tree)
             return
         
-        for i in range(0, position.neighbors.__len__()):
-            if position.neighbors[i] not in exploredPositions:                               
-                queue.put((weight + position.neighbors[i].weight, position.neighbors[i], currentPath + [position]))
+        for i in range(position.neighbors.__len__()):
+            if position.neighbors[i] not in exploredPositions:
+                queue.put((weight + position.neighbors[i].weight, position.neighbors[i], currentPath + [position.neighbors[i]]))
                 exploredPositions.add(position.neighbors[i])
-                position.neighbors[i].ColorBorder()
+                position.neighbors[i].ColorPosition(Commons.BLACK)
         
         thread = threading.Thread(target=Draw, args=[window, tree, False])
         thread.start()
+        thread.join()
     
         for event in pygame.event.get():
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     Commons.QuitGame()
+                    
+            if event.type == pygame.QUIT:
+                Commons.QuitGame()
 
 # ==================== #
 
@@ -166,4 +169,4 @@ def AStartAlgorithm(tree, start, end, window):
 # ==================== #
 
 def CalculateManhattanDistance(tree, position, end):   
-     print('manhattan distance')
+     print('manhattan distance')    
