@@ -46,10 +46,11 @@ def MainMapScreen(window):
                     for i in windowGrid:
                         for j in i:
                             j.CreateNeighbors(windowGrid)                                            
-                    if Commons.currentAlgorithm == Commons.A_ALGORITHM:
-                        AStartAlgorithm(windowGrid, initialSpot, finalSpot, window)
-                    else:
-                        BlindSearchAlgorithm(windowGrid, initialSpot, finalSpot, window)
+                    CalculatePathBasedOnCurrentAlgorithm(windowGrid, initialSpot, finalSpot, window)
+                    # if Commons.currentAlgorithm == Commons.A_ALGORITHM:
+                    #     AStartAlgorithm(windowGrid, initialSpot, finalSpot, window)
+                    # else:
+                    #     BlindSearchAlgorithm(windowGrid, initialSpot, finalSpot, window)
                         
                 if event.key == pygame.K_r:  
                     windowGrid = BuildInitialWindow(file[2])
@@ -124,13 +125,13 @@ def Draw(window, grid, shouldDrawLine = True):
             
 # ==================== #
 
-def BlindSearchAlgorithm(tree, start, end, window):
+def CalculatePathBasedOnCurrentAlgorithm (tree, start, end, window):
     queue = PriorityQueue()
     path = [start]
     exploredPositions = set([])
     queue.put((0, start, path))
     exploredPositions.add(start)
-    
+    w = 0
     while queue:            
                     
         weight, position, currentPath = queue.get()
@@ -139,13 +140,20 @@ def BlindSearchAlgorithm(tree, start, end, window):
         if position == end:
             currentPath += [end]
             for i in currentPath:
-                i.ColorPosition(Commons.YELLOW)
+                i.ColorPosition(Commons.YELLOW) 
+                w += i.weight               
+            print(weight)
+            print(w)
             Draw(window, tree)
             return
         
         for i in range(position.neighbors.__len__()):
             if position.neighbors[i] not in exploredPositions:
-                queue.put((weight + position.neighbors[i].weight, position.neighbors[i], currentPath + [position.neighbors[i]]))
+                if Commons.currentAlgorithm == Commons.A_ALGORITHM:
+                    cost = weight + CalculateManhattanDistance(position.neighbors[i], end)
+                else:
+                    cost = weight + position.neighbors[i].weight        
+                queue.put((cost, position.neighbors[i], currentPath + [position.neighbors[i]]))                
                 exploredPositions.add(position.neighbors[i])
                 position.neighbors[i].ColorPosition(Commons.BLACK)
         
@@ -161,12 +169,5 @@ def BlindSearchAlgorithm(tree, start, end, window):
             if event.type == pygame.QUIT:
                 Commons.QuitGame()
 
-# ==================== #
-
-def AStartAlgorithm(tree, start, end, window):
-    print(Commons.A_ALGORITHM)
-    
-# ==================== #
-
-def CalculateManhattanDistance(tree, position, end):   
-     print('manhattan distance')    
+def CalculateManhattanDistance(position, end):
+    return abs(position.row - end.row) + abs(position.column - end.column)        
