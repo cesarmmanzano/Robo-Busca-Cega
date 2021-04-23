@@ -22,7 +22,7 @@ class Position:
         if self.row > 0:
             self.neighbors.append(grid[self.row - 1][self.column])
 
-        # LEFT
+        # RIGHT
         if self.column < Commons.GAME_ROWS - 1:
             self.neighbors.append(grid[self.row][self.column + 1])
             
@@ -30,7 +30,7 @@ class Position:
         if self.row < Commons.GAME_ROWS - 1:
             self.neighbors.append(grid[self.row + 1][self.column])
             
-        # RIGHT
+        # LEFT
         if self.column > 0:
             self.neighbors.append(grid[self.row][self.column - 1])
 

@@ -1,15 +1,14 @@
 import pygame
 from pygame.locals import *
 
-import Busca
+import GameWindow
 import Commons
-
 
 def MainMenu():
 
     click = False
     isMenuRunning = True
-    gameWindow = pygame.display.set_mode((int(Commons.GAME_WIDTH / 2), int(Commons.GAME_WIDTH / 2)))
+    gameWindow = pygame.display.set_mode((int(Commons.GAME_WIDTH / 2), int(Commons.GAME_WIDTH / 2)))    
     pygame.display.set_caption(Commons.GAME_TITLE)
     
     button_1 = pygame.Rect(100, 150, 200, 50)
@@ -17,7 +16,7 @@ def MainMenu():
     
     while isMenuRunning:
 
-        gameWindow.fill(Commons.LIGHT_BLACK)        
+        gameWindow.fill(Commons.BACKGROUND_MENU_COLOR)
 
         # binding click events
         x, y = pygame.mouse.get_pos()
@@ -30,12 +29,12 @@ def MainMenu():
 
         # Mouse hover colors
         if button_1.collidepoint((x, y)) and not click:
-            pygame.draw.rect(gameWindow, Commons.LIGHT_ORANGE, button_1)
+            pygame.draw.rect(gameWindow, Commons.MENU_BUTTON_HOVER_COLOR, button_1)
         else:
             pygame.draw.rect(gameWindow, Commons.ORANGE, button_1)
 
         if button_2.collidepoint((x, y)) and not click:
-            pygame.draw.rect(gameWindow, Commons.LIGHT_ORANGE, button_2)
+            pygame.draw.rect(gameWindow, Commons.MENU_BUTTON_HOVER_COLOR, button_2)
         else:
             pygame.draw.rect(gameWindow, Commons.ORANGE, button_2)
           
@@ -58,13 +57,12 @@ def MainMenu():
 
 # ==================== #
 
-
 def OnMenuButtonClick(window, algorithm):
     Commons.currentAlgorithm = algorithm
     pygame.quit()
     window = pygame.display.set_mode((Commons.GAME_WIDTH, Commons.GAME_WIDTH))
     pygame.display.set_caption(Commons.GAME_TITLE + " - " + Commons.currentAlgorithm)
-    Busca.MainMapScreen(window)
+    GameWindow.MainMapScreen(window)
 
 # ==================== #
 
@@ -89,6 +87,5 @@ def RenderTexts(window):
     pygame.display.update()
     
 # ==================== #
-
 
 MainMenu()

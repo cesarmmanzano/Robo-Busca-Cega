@@ -29,13 +29,13 @@ GREEN = ("#97E067")  # 1 - Straight/Flat/Solid
 BROWN = ("#775D44")  # 2 - Mountain
 BLUE = ("#54C2EA")  # 3 - Swamp
 RED = ("#C95E52")  # 4 - Fire
+BLACK = ("#000000") # Border Color
 ORANGE = ("#FFA500")  # Menu button normal state
-LIGHT_ORANGE = ("#FF8D19")  # Menu button mouse hover
-LIGHT_BLACK = ("#200E0E")  # Menu background
-YELLOW = ("#FFFF00") # Path color
+MENU_BUTTON_HOVER_COLOR = ("#FF8D19")  # Menu button mouse hover
+BACKGROUND_MENU_COLOR = ("#200E0E")  # Menu background
+PATH_COLOR = ("#FFFF00") # Path color
 START_POSITION_COLOR = ("#009900") # green for start position
 FINAL_POSITION_COLOR = ("#FF0000") # red for final position
-BLACK = ("#000000") # Border Color
 
 
 def QuitGame():

@@ -1,12 +1,10 @@
 import pygame
-import sys
-import math
 import threading
-from queue import PriorityQueue
 from pygame.locals import *
 
 import Commons
 import Position
+import Algorithm
 
 # ==================== #
 
@@ -28,7 +26,7 @@ def MainMapScreen(window):
 
     while isGameRunning:
         hasGameStarted = False
-        Draw(window, windowGrid)
+        DrawWindow(window, windowGrid)
 
         # Possible events
         for event in pygame.event.get():
@@ -46,11 +44,7 @@ def MainMapScreen(window):
                     for i in windowGrid:
                         for j in i:
                             j.CreateNeighbors(windowGrid)                                            
-                    CalculatePathBasedOnCurrentAlgorithm(windowGrid, initialSpot, finalSpot, window)
-                    # if Commons.currentAlgorithm == Commons.A_ALGORITHM:
-                    #     AStartAlgorithm(windowGrid, initialSpot, finalSpot, window)
-                    # else:
-                    #     BlindSearchAlgorithm(windowGrid, initialSpot, finalSpot, window)
+                    Algorithm.CalculatePathBasedOnCurrentAlgorithm(windowGrid, initialSpot, finalSpot, window)
                         
                 if event.key == pygame.K_r:  
                     windowGrid = BuildInitialWindow(file[2])
@@ -107,7 +101,7 @@ def BuildInitialWindow(grid):
 # ==================== #                   
                         
     
-def Draw(window, grid, shouldDrawLine = True):
+def DrawWindow(window, grid, shouldDrawLine = True):
 
     for i in grid:
         for position in i:
@@ -122,52 +116,3 @@ def Draw(window, grid, shouldDrawLine = True):
                 pygame.draw.line(window, Commons.BLACK, (posx, 0), (posx, Commons.GAME_WIDTH))
         
     pygame.display.update()
-            
-# ==================== #
-
-def CalculatePathBasedOnCurrentAlgorithm (tree, start, end, window):
-    queue = PriorityQueue()
-    path = [start]
-    exploredPositions = set([])
-    queue.put((0, start, path))
-    exploredPositions.add(start)
-    w = 0
-    while queue:            
-                    
-        weight, position, currentPath = queue.get()
-        position.ColorPosition(Commons.ORANGE)
-        
-        if position == end:
-            currentPath += [end]
-            for i in currentPath:
-                i.ColorPosition(Commons.YELLOW) 
-                w += i.weight               
-            print(weight)
-            print(w)
-            Draw(window, tree)
-            return
-        
-        for i in range(position.neighbors.__len__()):
-            if position.neighbors[i] not in exploredPositions:
-                if Commons.currentAlgorithm == Commons.A_ALGORITHM:
-                    cost = weight + CalculateManhattanDistance(position.neighbors[i], end)
-                else:
-                    cost = weight + position.neighbors[i].weight        
-                queue.put((cost, position.neighbors[i], currentPath + [position.neighbors[i]]))                
-                exploredPositions.add(position.neighbors[i])
-                position.neighbors[i].ColorPosition(Commons.BLACK)
-        
-        thread = threading.Thread(target=Draw, args=[window, tree, False])
-        thread.start()
-        thread.join()
-    
-        for event in pygame.event.get():
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    Commons.QuitGame()
-                    
-            if event.type == pygame.QUIT:
-                Commons.QuitGame()
-
-def CalculateManhattanDistance(position, end):
-    return abs(position.row - end.row) + abs(position.column - end.column)        
