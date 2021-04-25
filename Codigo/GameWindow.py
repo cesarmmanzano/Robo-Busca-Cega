@@ -47,11 +47,13 @@ def MainMapScreen(window):
                     Algorithm.CalculatePathBasedOnCurrentAlgorithm(windowGrid, initialSpot, finalSpot, window)
                         
                 if event.key == pygame.K_r:  
+                    window = pygame.display.set_mode((Commons.GAME_WIDTH, Commons.GAME_WIDTH))
                     windowGrid = BuildInitialWindow(file[2])
                     initialSpot = windowGrid[initialPosition[0]][initialPosition[1]]
                     initialSpot.ColorPosition(Commons.START_POSITION_COLOR)
                     finalSpot = windowGrid[finalPosition[0]][finalPosition[1]]
-                    finalSpot.ColorPosition(Commons.FINAL_POSITION_COLOR)     
+                    finalSpot.ColorPosition(Commons.FINAL_POSITION_COLOR)   
+                    pygame.display.update()  
                                  
 # ==================== #
 
