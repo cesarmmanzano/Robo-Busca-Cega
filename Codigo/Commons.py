@@ -43,7 +43,13 @@ PATH_COLOR = ("#FFFF00") # Path color
 START_POSITION_COLOR = ("#009900") # green for start position
 FINAL_POSITION_COLOR = ("#FF0000") # red for final position
 
-
 def QuitGame():
     pygame.quit()
     sys.exit()
+    
+def RenderText(window, stringToRender, rect, fontSize = 15, color = WHITE):    
+    pygame.font.init()
+    myfont = pygame.font.SysFont(HELVETICA_NEUE_FONT, fontSize)
+    string = myfont.render(stringToRender, True, color)
+    window.blit(string, rect)
+    
