@@ -23,7 +23,7 @@ def CalculatePathBasedOnCurrentAlgorithm (tree, start, end, window):
         
         if position == end:
             for pos in currentPath:
-                pos.ColorPosition(Commons.PATH_COLOR)
+                pos.ColorPosition(Commons.YELLOW)
                 pathWeight += pos.weight
             visitedNodes = (exploredPositions.__len__() - queue._qsize()).__str__()
             RenderTexts(window, visitedNodes, pathWeight.__str__())
@@ -57,6 +57,6 @@ def CalculateManhattanDistance(position, end):
 
 def RenderTexts(window, visitedNodes, pathWeight):
     window = pygame.display.set_mode((Commons.GAME_WIDTH, Commons.GAME_WIDTH + 30))
-    window.fill(Commons.BACKGROUND_MENU_COLOR)
+    window.fill(Commons.LIGHT_BLACK)
     Commons.RenderText(window, (Commons.VISITED_NODES + visitedNodes), (5, Commons.GAME_WIDTH + 10))
     Commons.RenderText(window, (Commons.PATH_TOTAL_WEIGHT + pathWeight), (130, Commons.GAME_WIDTH + 10))

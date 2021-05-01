@@ -20,9 +20,9 @@ def MainMapScreen(window):
     hasGameStarted = False
     # draw initial and final position color
     initialSpot = windowGrid[initialPosition[0]][initialPosition[1]]
-    initialSpot.ColorPosition(Commons.START_POSITION_COLOR)
+    initialSpot.ColorPosition(Commons.GREEN)
     finalSpot = windowGrid[finalPosition[0]][finalPosition[1]]
-    finalSpot.ColorPosition(Commons.FINAL_POSITION_COLOR)
+    finalSpot.ColorPosition(Commons.RED)
 
     while isGameRunning:
         hasGameStarted = False
@@ -50,9 +50,9 @@ def MainMapScreen(window):
                     window = pygame.display.set_mode((Commons.GAME_WIDTH, Commons.GAME_WIDTH))
                     windowGrid = BuildInitialWindow(file[2])
                     initialSpot = windowGrid[initialPosition[0]][initialPosition[1]]
-                    initialSpot.ColorPosition(Commons.START_POSITION_COLOR)
+                    initialSpot.ColorPosition(Commons.GREEN)
                     finalSpot = windowGrid[finalPosition[0]][finalPosition[1]]
-                    finalSpot.ColorPosition(Commons.FINAL_POSITION_COLOR)   
+                    finalSpot.ColorPosition(Commons.RED)   
                     pygame.display.update()  
                                  
 # ==================== #
@@ -83,16 +83,16 @@ def BuildInitialWindow(grid):
         for j in range(Commons.GAME_ROWS):
 
             if grid[i][j] == 1:
-                color = Commons.GREEN
+                color = Commons.LIGHT_GREEN
                 weight = 1
             elif grid[i][j] == 2:
-                color = Commons.BROWN
+                color = Commons.LIGHT_BROWN
                 weight = 5
             elif grid[i][j] == 3:
-                color = Commons.BLUE
+                color = Commons.LIGHT_BLUE
                 weight = 10
             elif grid[i][j] == 4:
-                color = Commons.RED
+                color = Commons.LIGHT_RED
                 weight = 15
 
             position = Position.Position(i, j, color, weight)

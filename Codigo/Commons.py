@@ -30,18 +30,18 @@ VISITED_NODES = "Nós visitados: "
 PATH_TOTAL_WEIGHT = "Custo do caminho: "
 
 # Hex Colors
-GREEN = ("#97E067")  # 1 - Straight/Flat/Solid
-BROWN = ("#775D44")  # 2 - Mountain
-BLUE = ("#54C2EA")  # 3 - Swamp
-RED = ("#C95E52")  # 4 - Fire
-BLACK = ("#000000")
-WHITE = ("#FFFFFF")
-ORANGE = ("#FFA500")  # Menu button normal state
-MENU_BUTTON_HOVER_COLOR = ("#FF8D19")  # Menu button mouse hover
-BACKGROUND_MENU_COLOR = ("#200E0E")  # Menu background
-PATH_COLOR = ("#FFFF00") # Path color
-START_POSITION_COLOR = ("#009900") # green for start position
-FINAL_POSITION_COLOR = ("#FF0000") # red for final position
+LIGHT_GREEN = ("#97E067")  # 1 - Straight/Flat/Solid
+LIGHT_BROWN = ("#775D44")  # 2 - Mountain
+LIGHT_BLUE = ("#54C2EA")  # 3 - Swamp
+LIGHT_RED = ("#C95E52")  # 4 - Fire
+BLACK = ("#000000") # Border and main button text color
+WHITE = ("#FFFFFF") # Secondary text color
+ORANGE = ("#FFA500") # Normal state menu button color
+LIGHT_ORANGE = ("#FF8D19") # Hover state menu button color
+LIGHT_BLACK = ("#200E0E") # Background menu color
+YELLOW = ("#FFFF00") # Path color
+GREEN = ("#009900") # Inital position color
+RED = ("#FF0000") # Final position color
 
 def QuitGame():
     pygame.quit()

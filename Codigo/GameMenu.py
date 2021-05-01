@@ -16,7 +16,7 @@ def MainMenu():
     
     while isMenuRunning:
 
-        gameWindow.fill(Commons.BACKGROUND_MENU_COLOR)
+        gameWindow.fill(Commons.LIGHT_BLACK)
 
         # binding click events
         x, y = pygame.mouse.get_pos()
@@ -29,12 +29,12 @@ def MainMenu():
 
         # Mouse hover colors
         if button_1.collidepoint((x, y)) and not click:
-            pygame.draw.rect(gameWindow, Commons.MENU_BUTTON_HOVER_COLOR, button_1)
+            pygame.draw.rect(gameWindow, Commons.LIGHT_ORANGE, button_1)
         else:
             pygame.draw.rect(gameWindow, Commons.ORANGE, button_1)
 
         if button_2.collidepoint((x, y)) and not click:
-            pygame.draw.rect(gameWindow, Commons.MENU_BUTTON_HOVER_COLOR, button_2)
+            pygame.draw.rect(gameWindow, Commons.LIGHT_ORANGE, button_2)
         else:
             pygame.draw.rect(gameWindow, Commons.ORANGE, button_2)
           
@@ -61,7 +61,7 @@ def OnMenuButtonClick(window, algorithm):
     Commons.currentAlgorithm = algorithm
     pygame.quit()
     window = pygame.display.set_mode((Commons.GAME_WIDTH, Commons.GAME_WIDTH))
-    window.fill(Commons.BACKGROUND_MENU_COLOR)
+    window.fill(Commons.LIGHT_BLACK)
     pygame.display.set_caption(Commons.GAME_TITLE + " - " + Commons.currentAlgorithm)
     GameWindow.MainMapScreen(window)
 
