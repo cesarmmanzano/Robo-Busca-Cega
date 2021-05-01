@@ -68,7 +68,6 @@ def OnMenuButtonClick(window, algorithm):
 # ==================== #
 
 def RenderTexts(window):
-    pygame.font.init() 
     Commons.RenderText(window, Commons.A_ALGORITHM, (140, 165), 30, Commons.BLACK)
     Commons.RenderText(window, Commons.BUTTON_2_TEXT, (140, 265), 30, Commons.BLACK)
     Commons.RenderText(window, Commons.NAMES_TITLE, (5, 5))

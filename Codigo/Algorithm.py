@@ -24,21 +24,21 @@ def CalculatePathBasedOnCurrentAlgorithm (tree, start, end, window):
         if position == end:
             for pos in currentPath:
                 pos.ColorPosition(Commons.PATH_COLOR)
-                pathWeight += pos.weight     
-            visitedNodes = (exploredPositions.__len__() - queue._qsize()).__str__()       
-            RenderTexts(window, visitedNodes, pathWeight.__str__())  
+                pathWeight += pos.weight
+            visitedNodes = (exploredPositions.__len__() - queue._qsize()).__str__()
+            RenderTexts(window, visitedNodes, pathWeight.__str__())
             GameWindow.DrawWindow(window, tree)
             return
         
         for i in range(position.neighbors.__len__()):
-            if position.neighbors[i] not in exploredPositions:
-                if isCurrentAlgorithmAStar:                                     
-                    cost = weight + CalculateManhattanDistance(position.neighbors[i], end)
-                else:
-                    cost = weight + position.neighbors[i].weight
-                queue.put((cost, position.neighbors[i], currentPath + [position.neighbors[i]]))                
+            if isCurrentAlgorithmAStar:
+                cost = weight + position.neighbors[i].weight * CalculateManhattanDistance(position.neighbors[i], end)
+            else:
+                cost = weight + position.neighbors[i].weight
+            if position.neighbors[i] not in exploredPositions:                
+                queue.put((cost, position.neighbors[i], currentPath + [position.neighbors[i]]))
                 exploredPositions.add(position.neighbors[i])
-                position.neighbors[i].ColorPosition(Commons.BLACK)                
+                position.neighbors[i].ColorPosition(Commons.BLACK)             
         
         thread = threading.Thread(target=GameWindow.DrawWindow, args=[window, tree, False])
         thread.start()
@@ -53,10 +53,10 @@ def CalculatePathBasedOnCurrentAlgorithm (tree, start, end, window):
                 Commons.QuitGame()
 
 def CalculateManhattanDistance(position, end):
-    return abs(abs(position.row - end.row) + abs(position.column - end.column))
+    return abs(end.row - position.row) + abs(end.column - position.column)
 
 def RenderTexts(window, visitedNodes, pathWeight):
     window = pygame.display.set_mode((Commons.GAME_WIDTH, Commons.GAME_WIDTH + 30))
     window.fill(Commons.BACKGROUND_MENU_COLOR)
     Commons.RenderText(window, (Commons.VISITED_NODES + visitedNodes), (5, Commons.GAME_WIDTH + 10))
-    Commons.RenderText(window, (Commons.PATH_TOTAL_WEIGHT + pathWeight), (130, Commons.GAME_WIDTH + 10)) 
+    Commons.RenderText(window, (Commons.PATH_TOTAL_WEIGHT + pathWeight), (130, Commons.GAME_WIDTH + 10))
