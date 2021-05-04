@@ -24,8 +24,7 @@ def MainMenu():
         # binding click events
         x, y = pygame.mouse.get_pos()
         if button_1.collidepoint((x, y)) and wasButtonClicked:
-                Commons.FILE_NAME = easygui.fileopenbox()
-                print(Commons.FILE_NAME)
+                Commons.FILE_NAME = easygui.fileopenbox()                
                 wasButtonClicked = False
                 
         if button_2.collidepoint((x, y)) and wasButtonClicked:

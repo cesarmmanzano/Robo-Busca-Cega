@@ -7,7 +7,7 @@ GAME_ROWS = 42
 SQUARE_SIZE = GAME_WIDTH // GAME_ROWS
 
 GAME_TITLE = "Robo Busca Cega"
-FILE_NAME = None
+FILE_NAME = None # Will be set when user chooses a file
 CHOOSE_A_FILE = "Escolha o arquivo"
 # Font to be used
 HELVETICA_NEUE_FONT = "Helvetica Neue"
