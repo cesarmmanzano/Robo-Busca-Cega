@@ -1,5 +1,4 @@
 import pygame
-import threading
 from pygame.locals import *
 
 import Commons

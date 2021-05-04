@@ -58,11 +58,11 @@ def MainMenu():
 # ==================== #
 
 def OnMenuButtonClick(window, algorithm):
-    Commons.currentAlgorithm = algorithm
+    Commons.CurrentAlgorithm = algorithm
     pygame.quit()
     window = pygame.display.set_mode((Commons.GAME_WIDTH, Commons.GAME_WIDTH))
     window.fill(Commons.LIGHT_BLACK)
-    pygame.display.set_caption(Commons.GAME_TITLE + " - " + Commons.currentAlgorithm)
+    pygame.display.set_caption(Commons.GAME_TITLE + " - " + Commons.CurrentAlgorithm)
     GameWindow.MainMapScreen(window)
 
 # ==================== #

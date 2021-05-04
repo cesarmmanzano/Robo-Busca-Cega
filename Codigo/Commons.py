@@ -15,7 +15,7 @@ HELVETICA_NEUE_FONT = "Helvetica Neue"
 # To control which algorithm will be used
 A_ALGORITHM = "A* Algorithm"
 BLIND_SEARCH_ALGORITHM = "Blind Search Algorithm"
-global currentAlgorithm
+global CurrentAlgorithm
 
 # Menu strings
 NAMES_TITLE = "Cesar Marrote Manzano & Victor Felipe dos Santos"

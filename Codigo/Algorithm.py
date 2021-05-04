@@ -8,11 +8,10 @@ import Position
 import GameWindow
 
 def CalculatePathBasedOnCurrentAlgorithm (tree, start, end, window):
-    isCurrentAlgorithmAStar = Commons.currentAlgorithm == Commons.A_ALGORITHM
+    isCurrentAlgorithmAStar = Commons.CurrentAlgorithm == Commons.A_ALGORITHM
     queue = PriorityQueue()
-    path = [start]
     exploredPositions = set([])
-    queue.put((0, start, path))
+    queue.put((0, start, [start]))
     exploredPositions.add(start)
     pathWeight = start.weight.__neg__()
     
