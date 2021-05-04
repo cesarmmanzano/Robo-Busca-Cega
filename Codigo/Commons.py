@@ -3,13 +3,13 @@ import sys
 
 # Game constants
 GAME_WIDTH = 798
-TUTORIAL_WIDTH = 20
 GAME_ROWS = 42
 SQUARE_SIZE = GAME_WIDTH // GAME_ROWS
+
 GAME_TITLE = "Robo Busca Cega"
 FILE_NAME = "Codigo/index.txt"
 
-# Font to de used
+# Font to be used
 HELVETICA_NEUE_FONT = "Helvetica Neue"
 
 # To control which algorithm will be used
@@ -23,9 +23,9 @@ BUTTON_2_TEXT = "Blind Search"
 INSTRUCTIONS_TITLE = "Instruções: "
 INSTRUCTIONS_TITLE1_MENU = "Ao entrar na tela aperte espaço ou enter do teclado numérico para iniciar"
 INSTRUCTIONS_TITLE2_MENU = "Ao terminar o algoritmo pressione 'r' para reiniciar"
-INSTRUCTIONS_TITLE3_MENU = "Voce pode pressionar ESC para fechar a janela a qualquer momento"
+INSTRUCTIONS_TITLE3_MENU = "Você pode pressionar ESC a qualquer momento para fechar a janela"
 
-# Game infos strings
+# Game info strings
 VISITED_NODES = "Nós visitados: " 
 PATH_TOTAL_WEIGHT = "Custo do caminho: "
 
@@ -40,7 +40,7 @@ ORANGE = ("#FFA500") # Normal state menu button color
 LIGHT_ORANGE = ("#FF8D19") # Hover state menu button color
 LIGHT_BLACK = ("#200E0E") # Background menu color
 YELLOW = ("#FFFF00") # Path color
-GREEN = ("#009900") # Inital position color
+GREEN = ("#009900") # Initial position color
 RED = ("#FF0000") # Final position color
 
 def QuitGame():

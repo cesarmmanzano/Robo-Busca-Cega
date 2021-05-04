@@ -6,7 +6,7 @@ import Commons
 
 def MainMenu():
 
-    click = False
+    wasButtonClicked = False
     isMenuRunning = True
     gameWindow = pygame.display.set_mode((int(Commons.GAME_WIDTH / 2), int(Commons.GAME_WIDTH / 2)))    
     pygame.display.set_caption(Commons.GAME_TITLE)
@@ -21,19 +21,19 @@ def MainMenu():
         # binding click events
         x, y = pygame.mouse.get_pos()
         if button_1.collidepoint((x, y)):
-            if click:
+            if wasButtonClicked:
                 OnMenuButtonClick(gameWindow, Commons.A_ALGORITHM)
         if button_2.collidepoint((x, y)):
-            if click:
-                OnMenuButtonClick(gameWindow, Commons.BLIND_SEARCH_ALGORITHM)               
+            if wasButtonClicked:
+                OnMenuButtonClick(gameWindow, Commons.BLIND_SEARCH_ALGORITHM)
 
         # Mouse hover colors
-        if button_1.collidepoint((x, y)) and not click:
+        if button_1.collidepoint((x, y)) and not wasButtonClicked:
             pygame.draw.rect(gameWindow, Commons.LIGHT_ORANGE, button_1)
         else:
             pygame.draw.rect(gameWindow, Commons.ORANGE, button_1)
 
-        if button_2.collidepoint((x, y)) and not click:
+        if button_2.collidepoint((x, y)) and not wasButtonClicked:
             pygame.draw.rect(gameWindow, Commons.LIGHT_ORANGE, button_2)
         else:
             pygame.draw.rect(gameWindow, Commons.ORANGE, button_2)
@@ -52,8 +52,8 @@ def MainMenu():
                     Commons.QuitGame()
 
             if event.type == MOUSEBUTTONUP:
-                if event.button == 1 and button_1.collidepoint((x, y)) or button_2.collidepoint((x, y)):
-                    click = True
+                if event.button == 1 and (button_1.collidepoint((x, y)) or button_2.collidepoint((x, y))):
+                    wasButtonClicked = True
 
 # ==================== #
 

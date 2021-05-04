@@ -15,32 +15,27 @@ def MainMapScreen(window):
     finalPosition = file[1]  # finalPosition[i, j]
 
     windowGrid = BuildInitialWindow(file[2])
-
-    isGameRunning = True
-    hasGameStarted = False
+    
     # draw initial and final position color
     initialSpot = windowGrid[initialPosition[0]][initialPosition[1]]
     initialSpot.ColorPosition(Commons.GREEN)
     finalSpot = windowGrid[finalPosition[0]][finalPosition[1]]
     finalSpot.ColorPosition(Commons.RED)
 
-    while isGameRunning:
-        hasGameStarted = False
+    while True:
+        
         DrawWindow(window, windowGrid)
 
         # Possible events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                isGameRunning = False
                 Commons.QuitGame()
                 
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_ESCAPE:
-                    isGameRunning = False
                     Commons.QuitGame()
                     
-                if event.key == pygame.K_SPACE or event.key == pygame.K_KP_ENTER and not hasGameStarted:
-                    hasGameStarted = True
+                if event.key == pygame.K_SPACE or event.key == pygame.K_KP_ENTER:
                     for i in windowGrid:
                         for j in i:
                             j.CreateNeighbors(windowGrid)                                            
