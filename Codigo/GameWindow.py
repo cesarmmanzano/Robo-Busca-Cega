@@ -5,8 +5,6 @@ import Commons
 import Position
 import Algorithm
 
-# ==================== #
-
 def MainMapScreen(window):
 
     file = ReadFile()
@@ -14,7 +12,7 @@ def MainMapScreen(window):
     finalPosition = file[1]  # finalPosition[i, j]
 
     windowGrid = BuildInitialWindow(file[2])
-    
+
     # draw initial and final position color
     initialSpot = windowGrid[initialPosition[0]][initialPosition[1]]
     initialSpot.ColorPosition(Commons.GREEN)
@@ -22,45 +20,45 @@ def MainMapScreen(window):
     finalSpot.ColorPosition(Commons.RED)
 
     while True:
-        
+
         DrawWindow(window, windowGrid)
 
         # Possible events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 Commons.QuitGame()
-                
+
             if event.type == pygame.KEYUP:
                 if event.key == pygame.K_ESCAPE:
                     Commons.QuitGame()
-                    
+
                 if event.key == pygame.K_SPACE or event.key == pygame.K_KP_ENTER:
                     for i in windowGrid:
                         for j in i:
-                            j.CreateNeighbors(windowGrid)                                            
+                            j.CreateNeighbors(windowGrid)
                     Algorithm.CalculatePathBasedOnCurrentAlgorithm(windowGrid, initialSpot, finalSpot, window)
-                        
-                if event.key == pygame.K_r:  
+
+                if event.key == pygame.K_r:
                     window = pygame.display.set_mode((Commons.GAME_WIDTH, Commons.GAME_WIDTH))
                     windowGrid = BuildInitialWindow(file[2])
                     initialSpot = windowGrid[initialPosition[0]][initialPosition[1]]
                     initialSpot.ColorPosition(Commons.GREEN)
                     finalSpot = windowGrid[finalPosition[0]][finalPosition[1]]
-                    finalSpot.ColorPosition(Commons.RED)   
-                    pygame.display.update()  
+                    finalSpot.ColorPosition(Commons.RED)
+                    pygame.display.update()
                                  
 # ==================== #
 
 def ReadFile():
 
     with open(Commons.FILE_NAME, 'r') as f:
-        ws, hs = [int(x) for x in next(f).split(',')]
-        we, he = [int(x) for x in next(f).split(',')]
-        startPosition = [ws, hs]
-        finalPosition = [we, he]
+        startI, startJ = [int(x) for x in next(f).split(',')]
+        endI, endJ = [int(x) for x in next(f).split(',')]
+        startPosition = [startI, startJ]
+        finalPosition = [endI, endJ]
         gameMap = [[int(num) for num in line.split(',')] for line in f]
 
-    # result [ [start], [final], [map] ]    
+    # result [ [start], [final], [map] ]
     result = []
     result.append(startPosition)
     result.append(finalPosition)
@@ -94,9 +92,8 @@ def BuildInitialWindow(grid):
 
     return windowGrid
 
-# ==================== #                   
-                        
-    
+# ==================== #                        
+
 def DrawWindow(window, grid, shouldDrawLine = True):
 
     for i in grid:
@@ -110,5 +107,5 @@ def DrawWindow(window, grid, shouldDrawLine = True):
             for j in range(Commons.GAME_ROWS):
                 posx = j * Commons.SQUARE_SIZE
                 pygame.draw.line(window, Commons.BLACK, (posx, 0), (posx, Commons.GAME_WIDTH))
-        
+
     pygame.display.update()

@@ -14,8 +14,8 @@ def CalculatePathBasedOnCurrentAlgorithm (tree, start, end, window):
     queue.put((0, start, [start]))
     exploredPositions.add(start)
     pathWeight = start.weight.__neg__()
-    dict = {}
-    dict[start] = 0
+    positionDictionary = {}
+    positionDictionary[start] = 0
     
     while queue:
         
@@ -34,20 +34,21 @@ def CalculatePathBasedOnCurrentAlgorithm (tree, start, end, window):
             return
         
         for i in range(position.neighbors.__len__()):
+            
             if isCurrentAlgorithmAStar:
                 cost = weight + position.neighbors[i].weight + CalculateManhattanDistance(position.neighbors[i], end)
             else:
                 cost = weight + position.neighbors[i].weight
-            if position.neighbors[i] not in exploredPositions:                
+                
+            if position.neighbors[i] not in exploredPositions:
                 queue.put((cost, position.neighbors[i], currentPath + [position.neighbors[i]]))
                 exploredPositions.add(position.neighbors[i])
                 position.neighbors[i].ColorPosition(Commons.BLACK)
-                dict[position.neighbors[i]] = cost
-            elif dict[position.neighbors[i]] > cost and isCurrentAlgorithmAStar:                
+                positionDictionary[position.neighbors[i]] = cost
+            elif positionDictionary[position.neighbors[i]] > cost and isCurrentAlgorithmAStar:
                 queue.put((cost, position.neighbors[i], currentPath + [position.neighbors[i]]))
-                exploredPositions.add(position.neighbors[i])
                 position.neighbors[i].ColorPosition(Commons.BLACK)
-                dict[position.neighbors[i]] = cost
+                positionDictionary[position.neighbors[i]] = cost
         
         thread = threading.Thread(target=GameWindow.DrawWindow, args=[window, tree, False])
         thread.start()

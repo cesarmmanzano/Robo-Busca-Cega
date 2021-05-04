@@ -26,7 +26,7 @@ INSTRUCTIONS_TITLE2_MENU = "Ao terminar o algoritmo pressione 'r' para reiniciar
 INSTRUCTIONS_TITLE3_MENU = "Você pode pressionar ESC a qualquer momento para fechar a janela"
 
 # Game info strings
-VISITED_NODES = "Nós visitados: " 
+VISITED_NODES = "Nós visitados: "
 PATH_TOTAL_WEIGHT = "Custo do caminho: "
 
 # Hex Colors
@@ -46,10 +46,9 @@ RED = ("#FF0000") # Final position color
 def QuitGame():
     pygame.quit()
     sys.exit()
-    
-def RenderText(window, stringToRender, rect, fontSize = 15, color = WHITE):    
+
+def RenderText(window, stringToRender, rect, fontSize = 15, color = WHITE):
     pygame.font.init()
     myfont = pygame.font.SysFont(HELVETICA_NEUE_FONT, fontSize)
     string = myfont.render(stringToRender, True, color)
-    window.blit(string, rect)
-    
+    window.blit(string, rect)    

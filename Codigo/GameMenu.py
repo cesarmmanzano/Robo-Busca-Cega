@@ -8,12 +8,12 @@ def MainMenu():
 
     wasButtonClicked = False
     isMenuRunning = True
-    gameWindow = pygame.display.set_mode((int(Commons.GAME_WIDTH / 2), int(Commons.GAME_WIDTH / 2)))    
+    gameWindow = pygame.display.set_mode((int(Commons.GAME_WIDTH / 2), int(Commons.GAME_WIDTH / 2)))
     pygame.display.set_caption(Commons.GAME_TITLE)
-    
+
     button_1 = pygame.Rect(100, 150, 200, 50)
     button_2 = pygame.Rect(100, 250, 200, 50)
-    
+
     while isMenuRunning:
 
         gameWindow.fill(Commons.LIGHT_BLACK)
@@ -37,9 +37,9 @@ def MainMenu():
             pygame.draw.rect(gameWindow, Commons.LIGHT_ORANGE, button_2)
         else:
             pygame.draw.rect(gameWindow, Commons.ORANGE, button_2)
-          
-        RenderTexts(gameWindow)  
-        
+
+        RenderTexts(gameWindow)
+
         # Possible events
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -76,7 +76,7 @@ def RenderTexts(window):
     Commons.RenderText(window, Commons.INSTRUCTIONS_TITLE2_MENU, (5, 75))
     Commons.RenderText(window, Commons.INSTRUCTIONS_TITLE3_MENU, (5, 95))
     pygame.display.update()
-    
+
 # ==================== #
 
 MainMenu()
