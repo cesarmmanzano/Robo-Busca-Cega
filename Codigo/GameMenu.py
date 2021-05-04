@@ -28,16 +28,16 @@ def MainMenu():
                 wasButtonClicked = False
                 
         if button_2.collidepoint((x, y)) and wasButtonClicked:
-            if Commons.FILE_NAME != None:                                   
+            if Commons.FILE_NAME != None:
                 OnMenuButtonClick(gameWindow, Commons.A_ALGORITHM)
             else:
                 wasButtonClicked = False
                 
         if button_3.collidepoint((x, y)) and wasButtonClicked:
-                if Commons.FILE_NAME != None:                                   
+                if Commons.FILE_NAME != None:
                     OnMenuButtonClick(gameWindow, Commons.BLIND_SEARCH_ALGORITHM)
                 else:
-                    wasButtonClicked = False                  
+                    wasButtonClicked = False
 
         # Mouse hover colors
         if button_1.collidepoint((x, y)) and not wasButtonClicked:
@@ -49,7 +49,7 @@ def MainMenu():
             pygame.draw.rect(gameWindow, Commons.LIGHT_ORANGE, button_2)
         else:
             pygame.draw.rect(gameWindow, Commons.ORANGE, button_2)
-        
+
         if button_3.collidepoint((x, y)) and not wasButtonClicked:
             pygame.draw.rect(gameWindow, Commons.LIGHT_ORANGE, button_3)
         else:

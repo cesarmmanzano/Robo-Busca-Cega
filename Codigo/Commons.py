@@ -9,6 +9,7 @@ SQUARE_SIZE = GAME_WIDTH // GAME_ROWS
 GAME_TITLE = "Robo Busca Cega"
 FILE_NAME = None # Will be set when user chooses a file
 CHOOSE_A_FILE = "Escolha o arquivo"
+
 # Font to be used
 HELVETICA_NEUE_FONT = "Helvetica Neue"
 
@@ -43,6 +44,8 @@ LIGHT_BLACK = ("#200E0E") # Background menu color
 YELLOW = ("#FFFF00") # Path color
 GREEN = ("#009900") # Initial position color
 RED = ("#FF0000") # Final position color
+
+# ==================== #
 
 def QuitGame():
     pygame.quit()
