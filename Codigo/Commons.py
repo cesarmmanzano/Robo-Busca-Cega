@@ -7,8 +7,8 @@ GAME_ROWS = 42
 SQUARE_SIZE = GAME_WIDTH // GAME_ROWS
 
 GAME_TITLE = "Robo Busca Cega"
-FILE_NAME = "Codigo/index.txt"
-
+FILE_NAME = None
+CHOOSE_A_FILE = "Escolha o arquivo"
 # Font to be used
 HELVETICA_NEUE_FONT = "Helvetica Neue"
 
@@ -21,6 +21,7 @@ global CurrentAlgorithm
 NAMES_TITLE = "Cesar Marrote Manzano & Victor Felipe dos Santos"
 BUTTON_2_TEXT = "Blind Search"
 INSTRUCTIONS_TITLE = "Instruções: "
+INSTRUCTIONS_TITLE0_MENU = "Primeiro selecione o arquivo que deseja utilizar"
 INSTRUCTIONS_TITLE1_MENU = "Ao entrar na tela aperte espaço ou enter do teclado numérico para iniciar"
 INSTRUCTIONS_TITLE2_MENU = "Ao terminar o algoritmo pressione 'r' para reiniciar"
 INSTRUCTIONS_TITLE3_MENU = "Você pode pressionar ESC a qualquer momento para fechar a janela"
