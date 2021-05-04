@@ -20,7 +20,9 @@ def CalculatePathBasedOnCurrentAlgorithm (tree, start, end, window):
         
         weight, position, currentPath = queue.get()
         position.ColorPosition(Commons.ORANGE)
-        
+        if position != start and isCurrentAlgorithmAStar:
+            weight -= CalculateManhattanDistance(position, end)
+            
         if position == end:
             for pos in currentPath:
                 pos.ColorPosition(Commons.YELLOW)
@@ -32,7 +34,7 @@ def CalculatePathBasedOnCurrentAlgorithm (tree, start, end, window):
         
         for i in range(position.neighbors.__len__()):
             if isCurrentAlgorithmAStar:
-                cost = weight + position.neighbors[i].weight * CalculateManhattanDistance(position.neighbors[i], end)
+                cost = weight + position.neighbors[i].weight + CalculateManhattanDistance(position.neighbors[i], end)
             else:
                 cost = weight + position.neighbors[i].weight
             if position.neighbors[i] not in exploredPositions:                
